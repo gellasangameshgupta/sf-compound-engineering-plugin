@@ -48,7 +48,7 @@ Compounding engineering inverts this. Each feature you build:
 ### One-Command Installation
 
 ```bash
-npx claude-plugins install @gellsangameshgupta/sf-compound-engineering-plugin/sf-compound-engineering
+npx claude-plugins install @gellasangameshgupta/sf-compound-engineering-plugin/sf-compound-engineering
 ```
 
 ## Core Commands
