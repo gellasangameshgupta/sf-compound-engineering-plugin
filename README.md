@@ -1,378 +1,445 @@
 # Salesforce Compound Engineering Plugin
 
-A Claude Code plugin that makes each unit of Salesforce engineering work easier than the last. Transform how you plan, build, and review Salesforce solutions using AI-powered tools that systematically improve your development workflow.
+AI-powered Salesforce development tools for Claude Code. **23 agents, 9 commands, 6 skills** — all designed to work together in a sequential workflow.
 
-## What Is Salesforce Compound Engineering?
+---
 
-**Each unit of Salesforce work should make subsequent units of work easier—not harder.**
+## 🎯 What Is This?
 
-Traditional Salesforce development accumulates technical debt:
-- Triggers without proper handler patterns
-- Flows that bypass governor limits understanding
-- LWC components with duplicated logic
-- Hardcoded IDs and magic numbers
-- Missing test coverage for edge cases
+A plugin that gives Claude deep Salesforce expertise for:
+- **Code reviews** that catch governor limits, security issues, and anti-patterns
+- **Implementation** that follows best practices from the start
+- **Testing** with proper bulk scenarios and assertions
+- **Deployment** with checklists and validation
 
-Compounding engineering inverts this. Each feature you build:
-- Documents patterns for the next feature
-- Creates reusable components that accelerate future work
-- Establishes conventions that reduce decision fatigue
-- Codifies Salesforce-specific knowledge that compounds across the team
+**Core Philosophy:** Each unit of work should make subsequent work easier—not harder.
 
-## The Compound Engineering Loop
+---
+
+## 📦 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/gellasangameshgupta/sf-compound-engineering-marketplace.git
+
+# Install in Claude Code
+/plugin install /path/to/sf-compound-engineering-marketplace
+```
+
+---
+
+## 🔄 The Compound Engineering Workflow
+
+The real power is using commands **in sequence**. Here's a complete example:
+
+### Example: Building a Lead Scoring System
+
+**Requirement:**
+> Build a Lead scoring system that calculates scores based on lead source, industry, and company size. Update scores on lead changes. Sync high-scoring leads (>80) to external marketing system via REST API. Send email alerts for hot leads.
+
+---
+
+### Step 1: `/sf:plan` — Understand & Plan
+
+```
+/sf:plan
+
+I need to build a Lead scoring system that:
+- Calculates a score based on lead source, industry, and company size
+- Updates the score whenever a lead is modified
+- Syncs high-scoring leads (>80) to an external marketing system via REST API
+- Sends email alerts to sales reps for hot leads
+```
+
+**What Claude Does:**
+- Breaks down into phases
+- Identifies components needed (trigger, handler, service classes)
+- Estimates complexity
+- Lists dependencies
+
+**Output:** Implementation plan you'll reference in next steps
+
+---
+
+### Step 2: `/sf:work` — Build It Right
+
+```
+/sf:work
+
+Implement Phase 1 from the plan: Lead Score Calculation
+
+Create:
+1. Lead_Score__c field (Number)
+2. LeadTrigger 
+3. LeadTriggerHandler
+4. LeadScoringService with calculateScore() method
+```
+
+**What Claude Does:**
+- Writes bulk-safe Apex code
+- Follows trigger handler pattern
+- Includes CRUD/FLS checks
+- References `apex-patterns` skill automatically
+
+**Repeat for each phase:**
+```
+/sf:work
+Implement Phase 2: External System Sync (MarketingSystemService, AsyncLeadSyncJob)
+
+/sf:work  
+Implement Phase 3: Email Alerts (LeadAlertService)
+```
+
+---
+
+### Step 3: `/sf:review` — Catch Issues
+
+```
+/sf:review
+
+Review all the Lead Scoring code:
+- LeadTrigger.trigger
+- LeadTriggerHandler.cls
+- LeadScoringService.cls
+- MarketingSystemService.cls
+```
+
+**What Claude Does:**
+- Dispatches multiple agents automatically:
+  - `apex-governor-guardian` → checks limits
+  - `apex-security-sentinel` → checks CRUD/FLS, injection
+  - `apex-bulkification-reviewer` → checks bulk patterns
+  - `callout-pattern-reviewer` → checks HTTP patterns
+- Consolidates findings by severity
+
+**Output:**
+```
+### [CRITICAL] Missing CRUD Check
+Location: LeadScoringService.cls:45
+...
+
+### [HIGH] Callout Missing Timeout
+Location: MarketingSystemService.cls:23
+...
+```
+
+---
+
+### Step 4: `/sf:triage` — Prioritize Fixes
+
+```
+/sf:triage
+
+Process the review findings. Help me decide what to fix now vs later.
+```
+
+**What Claude Does:**
+- Presents each finding interactively
+- Helps categorize: Fix Now / Defer / Skip
+- Creates prioritized todo list
+
+**Output:**
+```
+Accepted (Fix Now):
+- [ ] CRITICAL: Add CRUD check in LeadScoringService
+- [ ] HIGH: Add timeout to MarketingSystemService
+
+Deferred (Backlog):
+- [ ] MEDIUM: Add retry logic to callout
+
+Skipped:
+- LOW: Variable naming suggestion (existing pattern)
+```
+
+---
+
+### Step 5: `/sf:resolve` — Fix Issues
+
+```
+/sf:resolve critical,high
+
+Fix all critical and high priority issues from triage.
+```
+
+**What Claude Does:**
+- Applies fixes to each issue
+- Shows before/after code
+- Validates fixes don't break other things
+
+---
+
+### Step 6: `/sf:test` — Comprehensive Testing
+
+```
+/sf:test
+
+Generate tests for the Lead Scoring feature:
+- LeadScoringService (unit tests)
+- LeadTriggerHandler (bulk tests with 200+ records)
+- MarketingSystemService (mock callout tests)
+
+Target: 90% coverage
+```
+
+**What Claude Does:**
+- Creates test classes using `test-factory` skill
+- Includes bulk scenarios (200+ records)
+- Adds mock classes for callouts
+- Covers positive, negative, and edge cases
+
+---
+
+### Step 7: `/sf:document` — Generate Docs
+
+```
+/sf:document
+
+Document the Lead Scoring feature:
+- ApexDoc for all classes
+- Feature README
+```
+
+**What Claude Does:**
+- Adds ApexDoc comments to all methods
+- Creates feature documentation
+- Documents architecture decisions
+
+---
+
+### Step 8: `/sf:health` — Final Check
+
+```
+/sf:health
+
+Analyze Lead Scoring codebase health before deployment.
+```
+
+**What Claude Does:**
+- Reports code coverage
+- Identifies remaining technical debt
+- Scores pattern compliance
+- Gives go/no-go recommendation
+
+---
+
+### Step 9: `/sf:deploy` — Ship It
+
+```
+/sf:deploy production
+
+Deploy Lead Scoring feature:
+- All Apex classes and triggers
+- Lead_Score__c custom field
+- Named Credential for Marketing API
+```
+
+**What Claude Does:**
+- Generates pre-deployment checklist
+- Provides SF CLI deployment commands
+- Creates post-deployment verification steps
+- Documents rollback procedure
+
+---
+
+## 📊 The Workflow Visualized
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                                                             │
-│   Plan (40%)  →  Work (20%)  →  Review (20%)  →  Compound  │
-│       ↑                                            (20%)    │
-│       └────────────────────────────────────────────┘        │
+│    /sf:plan                                                 │
+│        │                                                    │
+│        ▼                                                    │
+│    /sf:work ◄─────────────────┐                             │
+│        │                      │                             │
+│        ▼                      │                             │
+│    /sf:review                 │                             │
+│        │                      │                             │
+│        ▼                      │                             │
+│    /sf:triage                 │  Iterate until              │
+│        │                      │  review is clean            │
+│        ▼                      │                             │
+│    /sf:resolve ───────────────┘                             │
+│        │                                                    │
+│        ▼                                                    │
+│    /sf:test                                                 │
+│        │                                                    │
+│        ▼                                                    │
+│    /sf:document                                             │
+│        │                                                    │
+│        ▼                                                    │
+│    /sf:health                                               │
+│        │                                                    │
+│        ▼                                                    │
+│    /sf:deploy ──────────────────► PRODUCTION 🚀             │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-80% of compound engineering is in **planning and review**. 20% is in **execution**.
+---
 
-## Quick Start
+## 🤖 What's Included
 
-### Installation
+### Agents (23)
 
-```bash
-# Add the marketplace
-/plugin marketplace add https://github.com/gellasangameshgupta/sf-compound-engineering-plugin
+Specialized AI personas that know Salesforce inside out:
 
-# Install the plugin
-/plugin install sf-compound-engineering
+| Category | Agents | What They Check |
+|----------|--------|-----------------|
+| **Apex** (6) | governor-guardian, security-sentinel, bulkification-reviewer, trigger-architect, test-coverage-analyst, exception-handler | Limits, CRUD/FLS, injection, bulk patterns, test quality |
+| **LWC** (5) | performance-oracle, security-reviewer, accessibility-guardian, architecture-strategist, aura-migration-advisor | Wire adapters, XSS, ARIA, component patterns |
+| **Automation** (4) | flow-complexity-analyzer, flow-governor-monitor, process-automation-strategist, validation-rule-reviewer | Flow design, DML in loops, Flow vs Apex decisions |
+| **Integration** (4) | rest-api-architect, callout-pattern-reviewer, platform-event-strategist, integration-security-sentinel | API design, Named Credentials, retry patterns |
+| **Architecture** (4) | data-model-architect, sharing-security-analyst, metadata-consistency-checker, pattern-recognition-specialist | Schema design, OWD, anti-patterns |
+
+### Commands (9)
+
+| Command | Purpose | When To Use |
+|---------|---------|-------------|
+| `/sf:plan` | Create implementation plan from requirements | Start of any new feature |
+| `/sf:work` | Execute plan with best practices | Building components |
+| `/sf:review` | Multi-agent code review | After writing code |
+| `/sf:triage` | Prioritize review findings | After review |
+| `/sf:resolve` | Fix prioritized issues | After triage |
+| `/sf:test` | Generate comprehensive tests | Before deployment |
+| `/sf:document` | Auto-generate documentation | After code is stable |
+| `/sf:health` | Analyze codebase health | Before major deploys |
+| `/sf:deploy` | Deployment checklists & commands | Ready to ship |
+
+### Skills (6)
+
+Reference documentation Claude consults automatically:
+
+| Skill | What It Contains |
+|-------|------------------|
+| `governor-limits` | All Salesforce limits with thresholds |
+| `security-guide` | CRUD/FLS patterns, injection prevention |
+| `apex-patterns` | Trigger handler, selector, service patterns |
+| `lwc-patterns` | Component communication, state management |
+| `test-factory` | TestDataFactory patterns |
+| `integration-patterns` | REST, callouts, platform events |
+
+---
+
+## ⚡ Quick Start Examples
+
+### Quick Review (Single File)
 ```
+/sf:review
 
-### One-Command Installation
-
-```bash
-npx claude-plugins install @gellasangameshgupta/sf-compound-engineering-plugin/sf-compound-engineering
-```
-
-## Core Commands
-
-### `/sf:plan [feature description]`
-
-Creates detailed implementation plans from feature descriptions with Salesforce-specific research.
-
-```bash
-# Example
-claude /sf:plan "Add opportunity approval process with multi-level hierarchy and email notifications"
-```
-
-**What it does:**
-- Researches your org's existing patterns (triggers, flows, classes)
-- Analyzes governor limit implications
-- Creates acceptance criteria with bulkification requirements
-- Generates code examples following your existing patterns
-- Identifies security considerations (CRUD/FLS, sharing rules)
-
-### `/sf:work [plan file]`
-
-Executes plans systematically with Salesforce-aware validation.
-
-```bash
-claude /sf:work plans/opportunity-approval.md
-```
-
-**What it does:**
-- Creates feature branch with proper naming
-- Breaks down into trackable todos
-- Runs Apex tests after each change
-- Validates metadata with `sf project deploy validate`
-- Creates pull request when complete
-
-### `/sf:review [PR number or metadata path]`
-
-Performs exhaustive multi-agent code reviews with Salesforce expertise.
-
-```bash
-# Review latest PR
-claude /sf:review
-
-# Review specific PR
-claude /sf:review 123
-
-# Review local changes
-claude /sf:review force-app/main/default/classes/
-```
-
-**What it does:**
-- Runs 15+ specialized Salesforce review agents in parallel
-- Checks governor limits, bulkification, security
-- Validates trigger patterns and handler architecture
-- Reviews LWC for performance and accessibility
-- Analyzes Flow complexity and error handling
-
-### `/sf:deploy [environment]`
-
-Creates comprehensive deployment checklists and validates deployments.
-
-```bash
-claude /sf:deploy production
-```
-
-### `/sf:health`
-
-Analyzes org health and technical debt.
-
-```bash
-claude /sf:health
-```
-
-## All Commands
-
-| Command | Purpose |
-|---------|---------|
-| `/sf:plan` | Create detailed Salesforce implementation plans |
-| `/sf:work` | Execute plans with systematic validation |
-| `/sf:review` | Multi-agent code review for Salesforce |
-| `/sf:deploy` | Deployment checklists and validation |
-| `/sf:health` | Org health and technical debt analysis |
-| `/sf:triage` | Triage review findings into todos |
-| `/sf:resolve` | Resolve todos in parallel |
-| `/sf:generate` | Generate new commands from descriptions |
-| `/sf:document` | Auto-generate documentation |
-| `/sf:test` | Comprehensive test analysis and generation |
-| `/sf:refactor` | Safe refactoring with dependency analysis |
-| `/sf:integrate` | Integration pattern planning (REST/SOAP) |
-| `/sf:migrate` | Data migration planning and validation |
-
-## Specialized Agents (24 Total)
-
-### Apex Review Specialists
-
-| Agent | Focus |
-|-------|-------|
-| `apex-governor-guardian` | Governor limits, SOQL optimization, heap management |
-| `apex-bulkification-reviewer` | Bulk patterns, collection handling, trigger context |
-| `apex-security-sentinel` | CRUD/FLS, injection prevention, sharing rules |
-| `apex-trigger-architect` | One-trigger pattern, handler design, recursion control |
-| `apex-test-coverage-analyst` | Test patterns, assertions, edge cases, data factory |
-| `apex-exception-handler` | Error handling, logging, graceful degradation |
-
-### Lightning (LWC/Aura) Specialists
-
-| Agent | Focus |
-|-------|-------|
-| `lwc-performance-oracle` | Wire adapters, caching, rendering optimization |
-| `lwc-security-reviewer` | Lightning Locker, CSP, XSS prevention |
-| `lwc-accessibility-guardian` | WCAG compliance, ARIA, keyboard navigation |
-| `aura-migration-advisor` | Aura to LWC migration patterns |
-| `lwc-architecture-strategist` | Component composition, data flow, event handling |
-
-### Automation Specialists
-
-| Agent | Focus |
-|-------|-------|
-| `flow-complexity-analyzer` | Flow loops, bulkification, error handling |
-| `flow-governor-monitor` | DML/SOQL in flows, recursive flows |
-| `process-automation-strategist` | Flow vs Trigger vs Apex decisions |
-| `validation-rule-reviewer` | Rule logic, bypass patterns, error messages |
-
-### Integration Specialists
-
-| Agent | Focus |
-|-------|-------|
-| `rest-api-architect` | API design, versioning, error responses |
-| `callout-pattern-reviewer` | Async patterns, retry logic, timeout handling |
-| `integration-security-sentinel` | OAuth, named credentials, certificate handling |
-| `platform-event-strategist` | Event design, replay, high-volume patterns |
-
-### Data & Architecture
-
-| Agent | Focus |
-|-------|-------|
-| `data-model-architect` | Schema design, relationships, field usage |
-| `sharing-security-analyst` | OWD, sharing rules, manual shares, territories |
-| `package-dependency-guardian` | Namespace conflicts, version management |
-| `metadata-consistency-checker` | Profile/permission set alignment, field-level security |
-
-### Research & Documentation
-
-| Agent | Focus |
-|-------|-------|
-| `salesforce-release-researcher` | New features, deprecations, release notes |
-| `pattern-recognition-specialist` | Codebase patterns, anti-patterns, best practices |
-
-## Skills (12 Total)
-
-### Core Skills
-
-| Skill | Purpose |
-|-------|---------|
-| `apex-patterns` | Common Apex patterns (selector, domain, service) |
-| `lwc-patterns` | LWC component patterns and state management |
-| `governor-limits` | Complete governor limit reference and strategies |
-| `security-guide` | Salesforce security best practices |
-| `test-factory` | Test data factory patterns |
-| `integration-patterns` | Integration pattern library |
-
-### Workflow Skills
-
-| Skill | Purpose |
-|-------|---------|
-| `deployment-checklist` | Pre/post deployment validation |
-| `code-review-checklist` | Comprehensive review checklist |
-| `troubleshooting-guide` | Common issue resolution |
-| `documentation-templates` | Technical documentation templates |
-| `migration-playbook` | Data and metadata migration guides |
-| `release-management` | Release process and rollback procedures |
-
-## Example Workflows
-
-### Planning a New Feature
-
-```bash
-claude /sf:plan "Create a lead scoring automation that:
-- Calculates score based on engagement activities
-- Updates lead rating based on thresholds  
-- Triggers assignment rules for high-score leads
-- Logs scoring history for analytics"
-```
-
-**Output:** A comprehensive plan including:
-- Data model changes (custom fields, objects)
-- Trigger architecture with handler pattern
-- Flow vs Apex decision rationale
-- Test scenarios with bulkification tests
-- Deployment sequence
-- Rollback plan
-
-### Reviewing Code Before PR
-
-```bash
-claude /sf:review force-app/main/default/classes/LeadScoringHandler.cls
-```
-
-**Output:** Multi-agent analysis covering:
-- Governor limit compliance
-- Bulkification verification
-- Security review (CRUD/FLS)
-- Test coverage gaps
-- Code quality suggestions
-- Documentation requirements
-
-### Deploying to Production
-
-```bash
-claude /sf:deploy production
-```
-
-**Output:** Pre-deployment checklist:
-- Validation results
-- Test execution summary
-- Destructive changes warnings
-- User impact analysis
-- Rollback procedures
-- Post-deployment verification steps
-
-## Salesforce-Specific Principles
-
-### 1. Governor Limits First
-Every code review starts with governor limit analysis. The `apex-governor-guardian` agent validates SOQL queries, DML operations, and heap usage.
-
-### 2. Bulkification by Default
-The `apex-bulkification-reviewer` ensures all trigger handlers, batch jobs, and integrations handle collections properly.
-
-### 3. Security in Depth
-The security agents validate:
-- CRUD/FLS enforcement
-- Sharing rule compliance
-- Input sanitization
-- Lightning Locker compliance
-
-### 4. Test-Driven Development
-The `apex-test-coverage-analyst` ensures:
-- Positive and negative test cases
-- Bulk data tests (200+ records)
-- User context tests (different profiles)
-- Integration test patterns
-
-### 5. Documentation as Code
-Every component gets documented:
-- Inline ApexDoc comments
-- README files for complex features
-- Architecture decision records
-- Runbook for operations
-
-## Configuration
-
-### `.sf-compound/config.json`
-
-```json
-{
-  "org": {
-    "defaultOrg": "MyDevOrg",
-    "scratchOrgDefinition": "config/project-scratch-def.json"
-  },
-  "review": {
-    "agents": ["all"],
-    "excludeAgents": [],
-    "severityThreshold": "warning"
-  },
-  "deployment": {
-    "runAllTests": true,
-    "testLevel": "RunLocalTests",
-    "checkOnly": false
-  },
-  "patterns": {
-    "triggerHandlerPattern": "TriggerHandler",
-    "selectorPattern": "Selector",
-    "servicePattern": "Service"
-  }
+public class MyService {
+    public void process(List<Account> accs) {
+        for (Account a : accs) {
+            Contact c = [SELECT Id FROM Contact WHERE AccountId = :a.Id LIMIT 1];
+            update a;
+        }
+    }
 }
 ```
 
-## Integration with Salesforce CLI
+**Expected:** Claude flags SOQL in loop, DML in loop, missing CRUD check
 
-The plugin integrates seamlessly with Salesforce CLI commands:
+---
 
-```bash
-# Validate before review
-sf project deploy validate --target-org MyOrg
+### Quick Plan
+```
+/sf:plan
 
-# Deploy after approval
-sf project deploy start --target-org MyOrg
-
-# Run tests
-sf apex run test --target-org MyOrg --code-coverage
+Add a "Convert to Customer" button on Account that:
+- Creates an Opportunity
+- Sends welcome email
+- Updates Account type to "Customer"
 ```
 
-## Philosophy
+---
 
-### Prefer Explicit Over Magic
-Salesforce has enough "magic" (automatic field updates, formula recalculations). Our code should be explicit and readable.
+### Quick Test Generation
+```
+/sf:test
 
-### Fail Fast, Fail Loud
-Governor limit exceptions are better than silent data corruption. Design for visibility.
+Generate bulk tests for AccountTriggerHandler class.
+Target 90% coverage.
+```
 
-### Test Like Production
-200+ record tests aren't optional—they're the minimum. Test with realistic data volumes.
+---
 
-### Security is Not Optional
-CRUD/FLS checks, sharing rules, and input validation are requirements, not nice-to-haves.
+## 🔧 How It Works
 
-### Document the Why
-Comments should explain business logic, not what the code does. Let the code speak for itself.
+The plugin provides Claude with:
 
-## Contributing
+1. **Auto-Dispatch Rules** (in CLAUDE.md)
+   - When Claude sees `.cls` files → automatically uses Apex agents
+   - When Claude sees `.js` in lwc/ → automatically uses LWC agents
+   - When asked about limits → automatically reads governor-limits skill
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
-- Adding new agents
-- Creating skills
-- Submitting improvements
+2. **Structured Prompts** (agents)
+   - Each agent has expertise, checklists, response format
+   - Claude adopts the agent's persona for specialized reviews
 
-## Learn More
+3. **Reference Knowledge** (skills)
+   - Curated Salesforce best practices
+   - Copy-paste ready code patterns
+   - Limit thresholds and security guides
 
-- [Compound Engineering Philosophy](https://every.to/source-code/my-ai-had-already-fixed-the-code-before-i-saw-it)
-- [Salesforce Development Best Practices](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_dev_guide.htm)
-- [Lightning Web Components Guide](https://developer.salesforce.com/docs/component-library/documentation/en/lwc)
+---
 
-## About
+## 📁 Directory Structure
 
-Created by Gella Sangamesh Gupta | https://sangamusings.kit.com/profile?_gl=1*6wbz3e*_gcl_au*NjAwNzc3OTE0LjE3NjE5ODU0NjUuMTE0MDQ3NzQwOC4xNzY2OTk3Njg4LjE3NjY5OTc4NTE.
+```
+sf-compound-engineering-marketplace/
+├── .claude-plugin/
+│   └── marketplace.json          # Plugin registry
+├── plugins/
+│   └── sf-compound-engineering/
+│       ├── .claude-plugin/
+│       │   └── plugin.json       # Plugin metadata
+│       ├── agents/
+│       │   ├── apex/             # 6 Apex agents
+│       │   ├── lwc/              # 5 LWC agents
+│       │   ├── automation/       # 4 Flow agents
+│       │   ├── integration/      # 4 Integration agents
+│       │   └── architecture/     # 4 Architecture agents
+│       ├── commands/             # 9 slash commands
+│       ├── skills/               # 6 reference skills
+│       └── CLAUDE.md             # Auto-dispatch rules
+├── README.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+└── LICENSE
+```
 
-Built with the Compound Engineering philosophy for Salesforce developers who want each deployment to make the next one easier.
+---
+
+## 🔄 Updating
+
+```bash
+cd /path/to/sf-compound-engineering-marketplace
+git pull origin main
+
+# If changes don't take effect:
+/plugin uninstall sf-compound-engineering
+/plugin install /path/to/sf-compound-engineering-marketplace
+```
+
+---
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding new agents, commands, or skills.
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](./LICENSE)
+
+---
+
+## 🙏 Credits
+
+- Inspired by [Every.to's Compound Engineering](https://every.to/source-code/my-ai-had-already-fixed-the-code-before-i-saw-it)
+- Built for the Salesforce developer community
+- Powered by Claude Code
+
+---
+
+**Made with ❤️ for Salesforce Developers**
