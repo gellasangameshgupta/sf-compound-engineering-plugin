@@ -1,292 +1,243 @@
-# Salesforce Compound Engineering Plugin - Development Guide
+# Salesforce Compound Engineering - Claude Instructions
 
-This repository is a Claude Code plugin designed specifically for Salesforce development workflows.
+This file tells Claude how to automatically use agents, skills, and commands when working on Salesforce projects.
 
-## Repository Structure
+---
+
+## 🚀 Auto-Dispatch Rules
+
+### When Reviewing Apex Code (.cls, .trigger)
+
+Automatically read and apply these agents:
+- `agents/apex/apex-governor-guardian.md` - Check for limit violations
+- `agents/apex/apex-security-sentinel.md` - Check CRUD/FLS, injection
+- `agents/apex/apex-bulkification-reviewer.md` - Check bulk patterns
+- `agents/apex/apex-trigger-architect.md` - For trigger files only
+
+Reference this skill:
+- `skills/governor-limits/SKILL.md` - For limit thresholds
+
+### When Reviewing LWC Code (.js, .html in lwc/)
+
+Automatically read and apply these agents:
+- `agents/lwc/lwc-performance-oracle.md` - Wire adapters, rendering
+- `agents/lwc/lwc-security-reviewer.md` - XSS, Locker compliance
+- `agents/lwc/lwc-accessibility-guardian.md` - ARIA, keyboard nav
+
+Reference this skill:
+- `skills/lwc-patterns/SKILL.md` - For component patterns
+
+### When Reviewing Flows (.flow-meta.xml)
+
+Automatically read and apply these agents:
+- `agents/automation/flow-complexity-analyzer.md` - Complexity scoring
+- `agents/automation/flow-governor-monitor.md` - DML/SOQL in loops
+
+### When Reviewing Integrations (callouts, REST, events)
+
+Automatically read and apply these agents:
+- `agents/integration/rest-api-architect.md` - API design
+- `agents/integration/callout-pattern-reviewer.md` - HTTP patterns
+- `agents/integration/integration-security-sentinel.md` - Credentials
+
+Reference this skill:
+- `skills/integration-patterns/SKILL.md` - For callout patterns
+
+### When Writing Tests
+
+Reference these:
+- `skills/test-factory/SKILL.md` - TestDataFactory patterns
+- `agents/apex/apex-test-coverage-analyst.md` - Test quality
+
+### When Asked About Security
+
+Reference:
+- `skills/security-guide/SKILL.md` - Complete security reference
+- `agents/apex/apex-security-sentinel.md` - Apex security
+- `agents/lwc/lwc-security-reviewer.md` - LWC security
+
+### When Asked About Patterns or Best Practices
+
+Reference:
+- `skills/apex-patterns/SKILL.md` - Trigger handler, selector, service patterns
+- `skills/lwc-patterns/SKILL.md` - Component communication, state management
+
+---
+
+## 📋 Command Workflows
+
+When a user invokes a command, read the command file and follow its workflow:
+
+| Command | File | Purpose |
+|---------|------|---------|
+| `/sf:plan` | `commands/plan.md` | Create implementation plan |
+| `/sf:work` | `commands/work.md` | Execute plan systematically |
+| `/sf:review` | `commands/review.md` | Multi-agent code review |
+| `/sf:test` | `commands/test.md` | Run and analyze tests |
+| `/sf:deploy` | `commands/deploy.md` | Deployment checklist |
+| `/sf:health` | `commands/health.md` | Org health analysis |
+| `/sf:triage` | `commands/triage.md` | Process review findings |
+| `/sf:resolve` | `commands/resolve.md` | Fix issues from triage |
+| `/sf:document` | `commands/document.md` | Generate documentation |
+
+---
+
+## 🎯 Response Guidelines
+
+### For Code Reviews
+
+Always structure findings as:
 
 ```
-salesforce-compound-engineering/
-├── .claude-plugin/
-│   └── marketplace.json          # Marketplace catalog
-├── plugins/
-│   └── sf-compound/              # The main plugin
-│       ├── .claude-plugin/
-│       │   └── plugin.json       # Plugin metadata
-│       ├── agents/               # Specialized AI agents
-│       │   ├── apex/            # Apex-specific reviewers
-│       │   ├── lwc/             # LWC-specific reviewers
-│       │   ├── flow/            # Flow-specific reviewers
-│       │   ├── integration/     # Integration reviewers
-│       │   └── architecture/    # Architecture reviewers
-│       ├── commands/             # Slash commands
-│       ├── skills/               # Reusable skills
-│       │   ├── governor-limits/
-│       │   ├── bulkification/
-│       │   ├── security/
-│       │   └── testing/
-│       ├── templates/            # Code templates
-│       ├── mcp-servers/          # MCP server configs
-│       ├── README.md
-│       └── CHANGELOG.md
-├── docs/                         # Documentation site
-├── examples/                     # Example implementations
-├── CLAUDE.md                     # This file
-└── README.md                     # Main documentation
+### [SEVERITY]: [Issue Title]
+
+**Location**: FileName.cls:LineNumber
+**Category**: Security | Governor | Bulk | Pattern
+
+**Issue**: 
+What's wrong
+
+**Risk**:
+What could happen
+
+**Current Code**:
+[code block]
+
+**Fixed Code**:
+[code block]
 ```
 
-## Compounding Engineering Philosophy
+Severity levels:
+- **CRITICAL**: Security vulnerabilities, definite limit exceptions
+- **HIGH**: Likely production issues, bad patterns
+- **MEDIUM**: Code smells, maintenance concerns
+- **LOW**: Style, minor optimizations
+- **INFO**: Suggestions, alternatives
 
-Each unit of engineering work should make subsequent units of work easier—not harder.
+### For Apex Code
 
-When working on this repository, follow the compounding engineering process:
-1. **Plan** → Understand the change needed and its impact
-2. **Build** → Implement with Salesforce best practices
-3. **Review** → Verify quality and identify learnings
-4. **Codify** → Document insights for future work
+Always consider:
+1. **Governor Limits**: Will this hit limits at 200 records?
+2. **Bulkification**: Does it handle collections properly?
+3. **Security**: CRUD/FLS enforced? Injection safe?
+4. **Error Handling**: Exceptions caught and logged?
+5. **Testability**: Can this be unit tested?
 
-## Adding New Components
+### For LWC Code
 
-### Adding a New Agent
+Always consider:
+1. **Performance**: Wire vs imperative? Reactive properties?
+2. **Security**: No innerHTML with user data? No eval()?
+3. **Accessibility**: Labels? Keyboard nav? ARIA?
+4. **Architecture**: Props down, events up?
 
-1. Create the agent file:
-   ```
-   plugins/sf-compound/agents/[category]/[agent-name].md
-   ```
+---
 
-2. Follow the agent template:
-   ```markdown
+## 📂 Directory Structure
+
+```
+plugins/sf-compound-engineering/
+├── agents/
+│   ├── apex/           # 6 Apex agents
+│   ├── lwc/            # 5 LWC agents  
+│   ├── automation/     # 4 Flow/automation agents
+│   ├── integration/    # 4 Integration agents
+│   └── architecture/   # 4 Architecture agents
+├── commands/           # 9 slash commands
+├── skills/             # 6 reference skills
+│   ├── apex-patterns/
+│   ├── lwc-patterns/
+│   ├── governor-limits/
+│   ├── security-guide/
+│   ├── test-factory/
+│   └── integration-patterns/
+└── .claude-plugin/
+    └── plugin.json
+```
+
+---
+
+## ⚡ Quick Reference
+
+### Governor Limits (Sync Context)
+| Limit | Value |
+|-------|-------|
+| SOQL Queries | 100 |
+| DML Statements | 150 |
+| Query Rows | 50,000 |
+| DML Rows | 10,000 |
+| CPU Time | 10,000 ms |
+| Heap Size | 6 MB |
+
+### Security Checklist
+- [ ] `WITH SECURITY_ENFORCED` or `Security.stripInaccessible()`
+- [ ] No SOQL/SOSL injection (use bind variables)
+- [ ] `with sharing` on user-facing classes
+- [ ] No hardcoded credentials
+
+### Bulk-Safe Patterns
+- [ ] No SOQL in loops
+- [ ] No DML in loops
+- [ ] Use Maps for O(1) lookups
+- [ ] Collect → Process → Execute
+
+---
+
+## 🔧 Extending the Plugin
+
+### Adding an Agent
+
+1. Create: `agents/{category}/agent-name.md`
+2. Include frontmatter:
+   ```yaml
    ---
    name: agent-name
-   description: Brief description
-   category: apex|lwc|flow|integration|architecture
-   triggers:
-     - "keyword patterns"
+   description: What it does
    ---
-
-   # Agent Name
-
-   ## Role
-   Describe the agent's purpose
-
-   ## Expertise
-   - Area 1
-   - Area 2
-
-   ## Review Checklist
-   - [ ] Check 1
-   - [ ] Check 2
-
-   ## Common Issues
-   ### Issue 1
-   **Problem**: Description
-   **Solution**: How to fix
-
-   ## Code Examples
-   ### Good Pattern
-   ```apex
-   // Good code
    ```
+3. Define: Expertise, Checklist, Response Format, Examples
 
-   ### Anti-Pattern
-   ```apex
-   // Bad code - explain why
-   ```
-   ```
+### Adding a Skill
 
-3. Update `plugin.json` agent count
-4. Update `README.md` agent list
-5. Test with: `claude agent [agent-name] "test input"`
+1. Create: `skills/skill-name/SKILL.md`
+2. Include frontmatter and comprehensive reference content
 
-### Adding a New Command
+### Adding a Command
 
-1. Create the command file:
-   ```
-   plugins/sf-compound/commands/[command-name].md
-   ```
+1. Create: `commands/command-name.md`
+2. Include: Frontmatter, Workflow steps, Examples
 
-2. Follow the command template:
-   ```markdown
-   ---
-   name: sf:[command-name]
-   description: What the command does
-   arguments:
-     - name: arg1
-       description: Argument description
-       required: true
-   ---
+---
 
-   # Command Name
+## 💡 Usage Examples
 
-   ## Purpose
-   Describe what this command accomplishes
+**User says**: "Review my AccountTrigger.trigger"
+**Claude does**: 
+1. Reads `apex-trigger-architect.md`
+2. Reads `apex-governor-guardian.md`
+3. Reads `apex-security-sentinel.md`
+4. Applies all checklists
+5. Reports findings by severity
 
-   ## Workflow
-   1. Step 1
-   2. Step 2
-   3. Step 3
+**User says**: "Help me fix this SOQL limit error"
+**Claude does**:
+1. Reads `skills/governor-limits/SKILL.md`
+2. Identifies the pattern causing issues
+3. Provides bulk-safe alternative
 
-   ## Usage Examples
-   ```bash
-   claude /sf:[command-name] "example input"
-   ```
+**User says**: "/sf:review force-app/"
+**Claude does**:
+1. Reads `commands/review.md`
+2. Follows the workflow
+3. Dispatches agents by file type
+4. Consolidates findings
 
-   ## Output
-   Describe expected output
-   ```
+---
 
-3. Update `plugin.json` command count
-4. Update `README.md` command list
-5. Test with: `claude /sf:[command-name]`
+## 🏷️ Core Philosophy
 
-### Adding a New Skill
+**Each unit of Salesforce work should make subsequent work easier—not harder.**
 
-1. Create skill directory:
-   ```
-   plugins/sf-compound/skills/[skill-name]/
-   ├── SKILL.md
-   ├── patterns/           # Code patterns
-   ├── checklists/        # Review checklists
-   └── examples/          # Example implementations
-   ```
+Loop: **Plan (40%)** → **Work (20%)** → **Review (20%)** → **Compound (20%)**
 
-2. Create SKILL.md with frontmatter:
-   ```markdown
-   ---
-   name: skill-name
-   description: Brief description of the skill
-   triggers:
-     - "trigger phrase 1"
-     - "trigger phrase 2"
-   ---
-
-   # Skill Name
-
-   ## Overview
-   Detailed description
-
-   ## Patterns
-   Reference files in patterns/
-
-   ## Checklists
-   Reference files in checklists/
-   ```
-
-3. Update `plugin.json` skill count
-4. Update `README.md` skill list
-
-## Verification Commands
-
-Before committing changes, verify counts match:
-
-```bash
-# Count agents
-find plugins/sf-compound/agents -name "*.md" | wc -l
-
-# Count commands
-ls plugins/sf-compound/commands/*.md | wc -l
-
-# Count skills
-ls -d plugins/sf-compound/skills/*/ 2>/dev/null | wc -l
-
-# Validate JSON files
-cat .claude-plugin/marketplace.json | jq .
-cat plugins/sf-compound/.claude-plugin/plugin.json | jq .
-```
-
-## Salesforce-Specific Guidelines
-
-### Governor Limit Awareness
-
-All agents and skills should consider:
-- **SOQL Queries**: Max 100 per transaction
-- **DML Statements**: Max 150 per transaction
-- **CPU Time**: Max 10,000ms synchronous, 60,000ms async
-- **Heap Size**: Max 6MB synchronous, 12MB async
-- **Callouts**: Max 100 per transaction
-
-### Security Requirements
-
-All code reviews must check:
-- CRUD/FLS enforcement using `WITH SECURITY_ENFORCED` or Schema methods
-- No dynamic SOQL with user input (SOQL injection)
-- Sharing rules respected (`with sharing` keyword)
-- No hardcoded credentials or IDs
-
-### Testing Standards
-
-- Minimum 85% code coverage
-- Positive and negative test scenarios
-- Bulk testing (200+ records)
-- User context testing (different profiles)
-- Data factory patterns (no hardcoded data)
-
-## Commit Message Format
-
-```
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-Co-Authored-By: Claude <noreply@anthropic.com>
-```
-
-## Learnings Log
-
-### 2024-12-29: Initial Structure
-Created the initial plugin structure based on the compound-engineering-plugin pattern, adapted for Salesforce-specific needs.
-
-**Learning**: Salesforce has unique constraints (governor limits, metadata-driven architecture) that require specialized agents beyond traditional code review.
-
-### Template for Future Learnings
-```
-### YYYY-MM-DD: Title
-Description of what happened and what was learned.
-
-**Learning**: Key takeaway that should inform future work.
-```
-
-## MCP Server Configuration
-
-The plugin includes MCP servers for enhanced functionality:
-
-```json
-{
-  "mcpServers": {
-    "salesforce-cli": {
-      "type": "stdio",
-      "command": "sf",
-      "args": ["--help"],
-      "description": "Salesforce CLI integration"
-    },
-    "context7": {
-      "type": "http",
-      "url": "https://mcp.context7.com/mcp",
-      "description": "Framework documentation lookup"
-    }
-  }
-}
-```
-
-## Testing the Plugin
-
-1. Install locally:
-   ```bash
-   /plugin install ./plugins/sf-compound
-   ```
-
-2. Test commands:
-   ```bash
-   claude /sf:plan "Add account scoring feature"
-   claude /sf:review
-   claude /sf:analyze
-   ```
-
-3. Test agents:
-   ```bash
-   claude agent apex-governor-guardian "Review this trigger"
-   claude agent lwc-architecture-reviewer "Review this component"
-   ```
-
-## Resources
-
-- [Salesforce Apex Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/)
-- [Lightning Web Components Guide](https://developer.salesforce.com/docs/component-library/documentation/en/lwc)
-- [Salesforce Flow Documentation](https://help.salesforce.com/s/articleView?id=sf.flow.htm)
-- [Platform Events Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.platform_events.meta/platform_events/)
+Every review improves the codebase. Every pattern learned gets documented. Every fix prevents future bugs.
