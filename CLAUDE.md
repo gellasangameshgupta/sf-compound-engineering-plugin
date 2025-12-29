@@ -1,44 +1,48 @@
-# CLAUDE.md - Development Guidelines
+# Salesforce Compound Engineering Plugin - Development Guide
 
-This file contains instructions for Claude when working on this repository.
+This repository is a Claude Code plugin designed specifically for Salesforce development workflows.
 
-## Repository Purpose
-
-This repository is a Claude Code plugin marketplace that distributes the sf-compound-engineering plugin to Salesforce developers building with AI-powered tools.
-
-## Directory Structure
+## Repository Structure
 
 ```
-sf-compound-engineering-plugin/
+salesforce-compound-engineering/
 ├── .claude-plugin/
 │   └── marketplace.json          # Marketplace catalog
+├── plugins/
+│   └── sf-compound/              # The main plugin
+│       ├── .claude-plugin/
+│       │   └── plugin.json       # Plugin metadata
+│       ├── agents/               # Specialized AI agents
+│       │   ├── apex/            # Apex-specific reviewers
+│       │   ├── lwc/             # LWC-specific reviewers
+│       │   ├── flow/            # Flow-specific reviewers
+│       │   ├── integration/     # Integration reviewers
+│       │   └── architecture/    # Architecture reviewers
+│       ├── commands/             # Slash commands
+│       ├── skills/               # Reusable skills
+│       │   ├── governor-limits/
+│       │   ├── bulkification/
+│       │   ├── security/
+│       │   └── testing/
+│       ├── templates/            # Code templates
+│       ├── mcp-servers/          # MCP server configs
+│       ├── README.md
+│       └── CHANGELOG.md
 ├── docs/                         # Documentation site
-├── plans/                        # Planning templates
-└── plugins/
-    └── sf-compound-engineering/  # The actual plugin
-        ├── .claude-plugin/
-        │   └── plugin.json       # Plugin metadata
-        ├── agents/               # Specialized AI agents
-        │   ├── apex/            # Apex review agents
-        │   ├── lwc/             # LWC review agents
-        │   ├── automation/      # Flow/Process review agents
-        │   ├── integration/     # API/Callout agents
-        │   └── architecture/    # Architecture review agents
-        ├── commands/            # Slash commands
-        ├── skills/              # Reusable knowledge modules
-        └── mcp-servers/         # MCP server configurations
+├── examples/                     # Example implementations
+├── CLAUDE.md                     # This file
+└── README.md                     # Main documentation
 ```
 
-## Core Philosophy
+## Compounding Engineering Philosophy
 
-**Each unit of Salesforce work should make subsequent units of work easier—not harder.**
+Each unit of engineering work should make subsequent units of work easier—not harder.
 
 When working on this repository, follow the compounding engineering process:
-
 1. **Plan** → Understand the change needed and its impact
-2. **Work** → Execute systematically with validation
-3. **Review** → Ensure quality meets the bar
-4. **Compound** → Document learnings for future work
+2. **Build** → Implement with Salesforce best practices
+3. **Review** → Verify quality and identify learnings
+4. **Codify** → Document insights for future work
 
 ## Adding New Components
 
@@ -46,194 +50,243 @@ When working on this repository, follow the compounding engineering process:
 
 1. Create the agent file:
    ```
-   plugins/sf-compound-engineering/agents/{category}/agent-name.md
+   plugins/sf-compound/agents/[category]/[agent-name].md
    ```
 
-2. Use this template:
+2. Follow the agent template:
    ```markdown
    ---
    name: agent-name
-   description: Brief description of what the agent does
+   description: Brief description
+   category: apex|lwc|flow|integration|architecture
+   triggers:
+     - "keyword patterns"
    ---
-   
-   # Agent Title
-   
-   You are an expert in [expertise area]. Your role is to [primary function].
-   
-   ## Your Expertise
-   - Skill 1
-   - Skill 2
-   
+
+   # Agent Name
+
+   ## Role
+   Describe the agent's purpose
+
+   ## Expertise
+   - Area 1
+   - Area 2
+
    ## Review Checklist
    - [ ] Check 1
    - [ ] Check 2
-   
-   ## Response Format
-   [Define how findings should be structured]
-   
-   ## Example Findings
-   [Provide example outputs]
-   
-   ## Anti-Patterns to Flag
-   [List common problems to catch]
+
+   ## Common Issues
+   ### Issue 1
+   **Problem**: Description
+   **Solution**: How to fix
+
+   ## Code Examples
+   ### Good Pattern
+   ```apex
+   // Good code
    ```
 
-3. Update counts:
-   - `plugins/sf-compound-engineering/.claude-plugin/plugin.json` → components.agents
-   - `.claude-plugin/marketplace.json` → plugin description
-   - `plugins/sf-compound-engineering/README.md` → agent list
-
-4. Verify:
-   ```bash
-   ls plugins/sf-compound-engineering/agents/**/*.md | wc -l
+   ### Anti-Pattern
+   ```apex
+   // Bad code - explain why
    ```
+   ```
+
+3. Update `plugin.json` agent count
+4. Update `README.md` agent list
+5. Test with: `claude agent [agent-name] "test input"`
 
 ### Adding a New Command
 
 1. Create the command file:
    ```
-   plugins/sf-compound-engineering/commands/command-name.md
+   plugins/sf-compound/commands/[command-name].md
    ```
 
-2. Use this template:
+2. Follow the command template:
    ```markdown
    ---
-   name: sf:command-name
+   name: sf:[command-name]
    description: What the command does
    arguments:
      - name: arg1
        description: Argument description
-       required: true/false
+       required: true
    ---
-   
-   # Command Title
-   
-   [Description of what the command does]
-   
+
+   # Command Name
+
+   ## Purpose
+   Describe what this command accomplishes
+
    ## Workflow
-   [Step-by-step execution process]
-   
-   ## Example Usage
-   [Show example invocations and outputs]
+   1. Step 1
+   2. Step 2
+   3. Step 3
+
+   ## Usage Examples
+   ```bash
+   claude /sf:[command-name] "example input"
    ```
 
-3. Update counts in plugin.json, marketplace.json, and README.md
+   ## Output
+   Describe expected output
+   ```
+
+3. Update `plugin.json` command count
+4. Update `README.md` command list
+5. Test with: `claude /sf:[command-name]`
 
 ### Adding a New Skill
 
 1. Create skill directory:
    ```
-   plugins/sf-compound-engineering/skills/skill-name/
+   plugins/sf-compound/skills/[skill-name]/
+   ├── SKILL.md
+   ├── patterns/           # Code patterns
+   ├── checklists/        # Review checklists
+   └── examples/          # Example implementations
    ```
 
-2. Add skill structure:
-   ```
-   skills/skill-name/
-   ├── SKILL.md           # Skill definition with frontmatter
-   ├── assets/            # Templates, examples (optional)
-   └── scripts/           # Supporting scripts (optional)
-   ```
-
-3. SKILL.md template:
+2. Create SKILL.md with frontmatter:
    ```markdown
    ---
    name: skill-name
-   description: Brief description of what the skill provides
+   description: Brief description of the skill
+   triggers:
+     - "trigger phrase 1"
+     - "trigger phrase 2"
    ---
-   
-   # Skill Title
-   
-   [Comprehensive documentation/reference material]
+
+   # Skill Name
+
+   ## Overview
+   Detailed description
+
+   ## Patterns
+   Reference files in patterns/
+
+   ## Checklists
+   Reference files in checklists/
    ```
 
-4. Update counts in plugin.json, marketplace.json, and README.md
+3. Update `plugin.json` skill count
+4. Update `README.md` skill list
 
 ## Verification Commands
 
-Before committing, verify:
+Before committing changes, verify counts match:
 
 ```bash
+# Count agents
+find plugins/sf-compound/agents -name "*.md" | wc -l
+
+# Count commands
+ls plugins/sf-compound/commands/*.md | wc -l
+
+# Count skills
+ls -d plugins/sf-compound/skills/*/ 2>/dev/null | wc -l
+
 # Validate JSON files
 cat .claude-plugin/marketplace.json | jq .
-cat plugins/sf-compound-engineering/.claude-plugin/plugin.json | jq .
-
-# Count components
-echo "Agents: $(find plugins/sf-compound-engineering/agents -name '*.md' | wc -l)"
-echo "Commands: $(ls plugins/sf-compound-engineering/commands/*.md | wc -l)"
-echo "Skills: $(ls -d plugins/sf-compound-engineering/skills/*/ 2>/dev/null | wc -l)"
-
-# Verify counts match descriptions
-grep -o "24 specialized agents" plugins/sf-compound-engineering/.claude-plugin/plugin.json
-grep -o "13 commands" plugins/sf-compound-engineering/.claude-plugin/plugin.json
-grep -o "12 skills" plugins/sf-compound-engineering/.claude-plugin/plugin.json
+cat plugins/sf-compound/.claude-plugin/plugin.json | jq .
 ```
 
 ## Salesforce-Specific Guidelines
 
-### Agent Quality Standards
+### Governor Limit Awareness
 
-All Salesforce agents must:
+All agents and skills should consider:
+- **SOQL Queries**: Max 100 per transaction
+- **DML Statements**: Max 150 per transaction
+- **CPU Time**: Max 10,000ms synchronous, 60,000ms async
+- **Heap Size**: Max 6MB synchronous, 12MB async
+- **Callouts**: Max 100 per transaction
 
-1. **Know Governor Limits**: Reference specific limits and thresholds
-2. **Understand Bulk Context**: Always consider 200+ record scenarios
-3. **Enforce Security**: CRUD/FLS, sharing, injection prevention
-4. **Follow Patterns**: Reference Salesforce best practices (trigger handlers, selectors, etc.)
-5. **Provide Code Examples**: Show before/after Apex, LWC, or Flow examples
+### Security Requirements
 
-### Code Examples Must
+All code reviews must check:
+- CRUD/FLS enforcement using `WITH SECURITY_ENFORCED` or Schema methods
+- No dynamic SOQL with user input (SOQL injection)
+- Sharing rules respected (`with sharing` keyword)
+- No hardcoded credentials or IDs
 
-- Be syntactically correct Apex/JavaScript
-- Include error handling
-- Follow Salesforce naming conventions
-- Be bulk-safe by default
-- Include comments for complex logic
+### Testing Standards
 
-### Testing References
-
-When discussing testing:
-- Minimum 75% coverage (recommend 90%+)
-- Positive, negative, and bulk test cases
-- User context tests (different profiles)
-- System.runAs() for sharing tests
-- Test.startTest()/Test.stopTest() for async
+- Minimum 85% code coverage
+- Positive and negative test scenarios
+- Bulk testing (200+ records)
+- User context testing (different profiles)
+- Data factory patterns (no hardcoded data)
 
 ## Commit Message Format
 
 ```
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-## Tags
-
-Use these tags for the plugin:
-
-- `salesforce`
-- `apex`
-- `lwc`
-- `lightning-web-components`
-- `flows`
-- `compound-engineering`
-- `code-review`
-- `ai-powered`
-- `workflow-automation`
-
 ## Learnings Log
 
-This section captures important learnings as we work on this repository.
+### 2024-12-29: Initial Structure
+Created the initial plugin structure based on the compound-engineering-plugin pattern, adapted for Salesforce-specific needs.
 
-### 2024-XX-XX: Initial Creation
-Created the Salesforce Compound Engineering Plugin based on the Every.to compound-engineering pattern. Key Salesforce-specific adaptations:
-- Agent categories aligned with Salesforce development areas (Apex, LWC, Flows, Integration)
-- Skills focused on Salesforce-specific knowledge (governor limits, security, patterns)
-- Commands tailored to Salesforce CLI and deployment workflows
+**Learning**: Salesforce has unique constraints (governor limits, metadata-driven architecture) that require specialized agents beyond traditional code review.
 
----
+### Template for Future Learnings
+```
+### YYYY-MM-DD: Title
+Description of what happened and what was learned.
+
+**Learning**: Key takeaway that should inform future work.
+```
+
+## MCP Server Configuration
+
+The plugin includes MCP servers for enhanced functionality:
+
+```json
+{
+  "mcpServers": {
+    "salesforce-cli": {
+      "type": "stdio",
+      "command": "sf",
+      "args": ["--help"],
+      "description": "Salesforce CLI integration"
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "description": "Framework documentation lookup"
+    }
+  }
+}
+```
+
+## Testing the Plugin
+
+1. Install locally:
+   ```bash
+   /plugin install ./plugins/sf-compound
+   ```
+
+2. Test commands:
+   ```bash
+   claude /sf:plan "Add account scoring feature"
+   claude /sf:review
+   claude /sf:analyze
+   ```
+
+3. Test agents:
+   ```bash
+   claude agent apex-governor-guardian "Review this trigger"
+   claude agent lwc-architecture-reviewer "Review this component"
+   ```
 
 ## Resources
 
-- [Salesforce Developer Docs](https://developer.salesforce.com/docs)
-- [Apex Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/)
-- [LWC Developer Guide](https://developer.salesforce.com/docs/component-library/documentation/en/lwc)
-- [Compound Engineering Philosophy](https://every.to/source-code/my-ai-had-already-fixed-the-code-before-i-saw-it)
+- [Salesforce Apex Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/)
+- [Lightning Web Components Guide](https://developer.salesforce.com/docs/component-library/documentation/en/lwc)
+- [Salesforce Flow Documentation](https://help.salesforce.com/s/articleView?id=sf.flow.htm)
+- [Platform Events Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.platform_events.meta/platform_events/)
