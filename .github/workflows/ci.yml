@@ -1,0 +1,210 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate Plugin
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Validate JSON files
+        run: |
+          echo "Validating marketplace.json..."
+          cat .claude-plugin/marketplace.json | jq .
+          
+          echo "Validating plugin.json..."
+          cat plugins/sf-compound-engineering/.claude-plugin/plugin.json | jq .
+      
+      - name: Count Components
+        id: count
+        run: |
+          AGENTS=$(find plugins/sf-compound-engineering/agents -name "*.md" | wc -l)
+          COMMANDS=$(find plugins/sf-compound-engineering/commands -name "*.md" | wc -l)
+          SKILLS=$(find plugins/sf-compound-engineering/skills -mindepth 1 -maxdepth 1 -type d | wc -l)
+          
+          echo "agents=$AGENTS" >> $GITHUB_OUTPUT
+          echo "commands=$COMMANDS" >> $GITHUB_OUTPUT
+          echo "skills=$SKILLS" >> $GITHUB_OUTPUT
+          
+          echo "📊 Component Counts:"
+          echo "   Agents: $AGENTS"
+          echo "   Commands: $COMMANDS"
+          echo "   Skills: $SKILLS"
+      
+      - name: Verify Component Counts
+        run: |
+          # Get counts from plugin.json
+          PLUGIN_AGENTS=$(jq '.components.agents' plugins/sf-compound-engineering/.claude-plugin/plugin.json)
+          PLUGIN_COMMANDS=$(jq '.components.commands' plugins/sf-compound-engineering/.claude-plugin/plugin.json)
+          PLUGIN_SKILLS=$(jq '.components.skills' plugins/sf-compound-engineering/.claude-plugin/plugin.json)
+          
+          # Get actual counts
+          ACTUAL_AGENTS=$(find plugins/sf-compound-engineering/agents -name "*.md" | wc -l)
+          ACTUAL_COMMANDS=$(find plugins/sf-compound-engineering/commands -name "*.md" | wc -l)
+          ACTUAL_SKILLS=$(find plugins/sf-compound-engineering/skills -mindepth 1 -maxdepth 1 -type d | wc -l)
+          
+          # Compare
+          if [ "$PLUGIN_AGENTS" != "$ACTUAL_AGENTS" ]; then
+            echo "❌ Agent count mismatch: plugin.json says $PLUGIN_AGENTS, found $ACTUAL_AGENTS"
+            exit 1
+          fi
+          
+          if [ "$PLUGIN_COMMANDS" != "$ACTUAL_COMMANDS" ]; then
+            echo "❌ Command count mismatch: plugin.json says $PLUGIN_COMMANDS, found $ACTUAL_COMMANDS"
+            exit 1
+          fi
+          
+          if [ "$PLUGIN_SKILLS" != "$ACTUAL_SKILLS" ]; then
+            echo "❌ Skill count mismatch: plugin.json says $PLUGIN_SKILLS, found $ACTUAL_SKILLS"
+            exit 1
+          fi
+          
+          echo "✅ All component counts match!"
+      
+      - name: Validate Agent Files
+        run: |
+          echo "Validating agent files..."
+          for file in plugins/sf-compound-engineering/agents/**/*.md; do
+            if [ -f "$file" ]; then
+              # Check for required frontmatter
+              if ! head -n 5 "$file" | grep -q "^---"; then
+                echo "❌ Missing frontmatter: $file"
+                exit 1
+              fi
+              
+              # Check for name field
+              if ! grep -q "^name:" "$file"; then
+                echo "❌ Missing name field: $file"
+                exit 1
+              fi
+              
+              # Check for description field
+              if ! grep -q "^description:" "$file"; then
+                echo "❌ Missing description field: $file"
+                exit 1
+              fi
+              
+              echo "✅ $file"
+            fi
+          done
+      
+      - name: Validate Command Files
+        run: |
+          echo "Validating command files..."
+          for file in plugins/sf-compound-engineering/commands/*.md; do
+            if [ -f "$file" ]; then
+              # Check for required frontmatter
+              if ! head -n 5 "$file" | grep -q "^---"; then
+                echo "❌ Missing frontmatter: $file"
+                exit 1
+              fi
+              
+              echo "✅ $file"
+            fi
+          done
+      
+      - name: Validate Skill Files
+        run: |
+          echo "Validating skill files..."
+          for dir in plugins/sf-compound-engineering/skills/*/; do
+            skill_file="${dir}SKILL.md"
+            if [ -f "$skill_file" ]; then
+              # Check for required frontmatter
+              if ! head -n 5 "$skill_file" | grep -q "^---"; then
+                echo "❌ Missing frontmatter: $skill_file"
+                exit 1
+              fi
+              
+              echo "✅ $skill_file"
+            else
+              echo "❌ Missing SKILL.md in $dir"
+              exit 1
+            fi
+          done
+      
+      - name: Check for Markdown Lint Issues
+        run: |
+          # Basic markdown checks
+          echo "Checking for common markdown issues..."
+          
+          # Check for trailing whitespace in markdown files
+          if grep -r "[[:space:]]$" plugins/sf-compound-engineering/**/*.md; then
+            echo "⚠️ Warning: Found trailing whitespace in markdown files"
+          fi
+          
+          echo "✅ Markdown validation complete"
+
+  build:
+    name: Build and Package
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Create Release Package
+        run: |
+          VERSION=$(jq -r '.version' plugins/sf-compound-engineering/.claude-plugin/plugin.json)
+          echo "Building version $VERSION"
+          
+          # Create dist directory
+          mkdir -p dist
+          
+          # Create zip package
+          zip -r "dist/sf-compound-engineering-v${VERSION}.zip" \
+            plugins/sf-compound-engineering \
+            .claude-plugin \
+            README.md \
+            CLAUDE.md \
+            -x "*.git*"
+          
+          echo "📦 Package created: sf-compound-engineering-v${VERSION}.zip"
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sf-compound-engineering-plugin
+          path: dist/*.zip
+          retention-days: 30
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'release:')
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Get Version
+        id: version
+        run: |
+          VERSION=$(jq -r '.version' plugins/sf-compound-engineering/.claude-plugin/plugin.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: sf-compound-engineering-plugin
+          path: dist
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Release v${{ steps.version.outputs.version }}
+          files: dist/*.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
