@@ -28,15 +28,15 @@ sf-compound-engineering/
 ├── sfce.py              # Main CLI application
 ├── __init__.py          # Package init
 ├── commands/            # Slash command definitions
-│   ├── plan.md          # /sf-plan
-│   ├── work.md          # /sf-work
-│   ├── review.md        # /sf-review
-│   ├── triage.md        # /sf-triage
-│   ├── resolve.md       # /sf-resolve
-│   ├── test.md          # /sf-test
-│   ├── document.md      # /sf-document
-│   ├── health.md        # /sf-health
-│   └── deploy.md        # /sf-deploy
+│   ├── sf-plan.md       # /sf-plan
+│   ├── sf-work.md       # /sf-work
+│   ├── sf-review.md     # /sf-review
+│   ├── sf-triage.md     # /sf-triage
+│   ├── sf-resolve.md    # /sf-resolve
+│   ├── sf-test.md       # /sf-test
+│   ├── sf-document.md   # /sf-document
+│   ├── sf-health.md     # /sf-health
+│   └── sf-deploy.md     # /sf-deploy
 ├── pyproject.toml       # Python package config
 ├── README.md
 ├── CONTRIBUTING.md
@@ -111,7 +111,7 @@ find . -type f | sort
 ls commands/*.md | wc -l  # Should be 9
 
 # Validate command frontmatter
-head -10 commands/plan.md
+head -10 commands/sf-plan.md
 ```
 
 ## Code Style

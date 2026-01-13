@@ -61,15 +61,15 @@ sfce init . --ai claude
 your-salesforce-project/
 ├── .claude/
 │   ├── commands/                # 9 slash commands
-│   │   ├── plan.md              # /sf-plan - Create implementation plans
-│   │   ├── work.md              # /sf-work - Implement with best practices
-│   │   ├── review.md            # /sf-review - Multi-agent code review
-│   │   ├── triage.md            # /sf-triage - Prioritize findings
-│   │   ├── resolve.md           # /sf-resolve - Fix issues
-│   │   ├── test.md              # /sf-test - Generate tests
-│   │   ├── document.md          # /sf-document - Auto-generate docs
-│   │   ├── health.md            # /sf-health - Deployment readiness
-│   │   └── deploy.md            # /sf-deploy - Deployment checklist
+│   │   ├── sf-plan.md           # /sf-plan - Create implementation plans
+│   │   ├── sf-work.md           # /sf-work - Implement with best practices
+│   │   ├── sf-review.md         # /sf-review - Multi-agent code review
+│   │   ├── sf-triage.md         # /sf-triage - Prioritize findings
+│   │   ├── sf-resolve.md        # /sf-resolve - Fix issues
+│   │   ├── sf-test.md           # /sf-test - Generate tests
+│   │   ├── sf-document.md       # /sf-document - Auto-generate docs
+│   │   ├── sf-health.md         # /sf-health - Deployment readiness
+│   │   └── sf-deploy.md         # /sf-deploy - Deployment checklist
 │   ├── agents/                  # 23 specialized review agents
 │   │   ├── apex/                # Governor limits, security, bulkification
 │   │   ├── lwc/                 # Performance, accessibility, architecture
