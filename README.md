@@ -2,6 +2,8 @@
 
 AI-powered Salesforce development tools for Claude Code. **23 agents, 9 commands, 6 skills** — all designed to work together in a sequential workflow.
 
+> **Development Workflow:** This project uses [GitHub Spec-Kit](https://github.com/github/spec-kit) for Spec-Driven Development. See [Contributing](#-contributing) for details.
+
 ---
 
 ## 🎯 What Is This?
@@ -385,9 +387,10 @@ The plugin provides Claude with:
 ## 📁 Directory Structure
 
 ```
-sf-compound-engineering-marketplace/
+sf-compound-engineering-plugin/
 ├── .claude-plugin/
 │   └── marketplace.json          # Plugin registry
+├── .specify/                     # Development workflow (Spec-Kit)
 ├── plugins/
 │   └── sf-compound-engineering/
 │       ├── .claude-plugin/
@@ -402,7 +405,6 @@ sf-compound-engineering-marketplace/
 │       ├── skills/               # 6 reference skills
 │       └── CLAUDE.md             # Auto-dispatch rules
 ├── README.md
-├── CHANGELOG.md
 ├── CONTRIBUTING.md
 └── LICENSE
 ```
@@ -425,6 +427,35 @@ git pull origin main
 ## 🤝 Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding new agents, commands, or skills.
+
+### Spec-Driven Development
+
+This project uses its own commands for Spec-Driven Development (inspired by [GitHub Spec-Kit](https://github.com/github/spec-kit)):
+
+```bash
+# Create a new feature specification
+.specify/scripts/create-new-feature.sh your-feature-name
+```
+
+Then follow the workflow using the plugin's commands:
+
+```
+/sf:plan → /sf:work → /sf:review → /sf:triage → /sf:resolve → /sf:test → /sf:document → /sf:health → /sf:deploy
+```
+
+| Phase | Command | Purpose |
+|-------|---------|---------|
+| Specify | `/sf:plan` | Generate spec & plan from requirements |
+| Implement | `/sf:work` | Build following the plan |
+| Validate | `/sf:review` | 23-agent code review |
+| Prioritize | `/sf:triage` | Triage findings |
+| Fix | `/sf:resolve` | Fix prioritized issues |
+| Test | `/sf:test` | Generate comprehensive tests |
+| Document | `/sf:document` | Auto-generate docs |
+| Assess | `/sf:health` | Go/No-Go decision |
+| Ship | `/sf:deploy` | Deployment checklist |
+
+See `.specify/memory/constitution.md` for project principles.
 
 ---
 
