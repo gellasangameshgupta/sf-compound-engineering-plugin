@@ -183,14 +183,31 @@ sfce --help                    # Show help
 
 ---
 
-## Supported AI Agents
+## Supported AI Agents (17)
+
+Based on [GitHub Spec-Kit](https://github.com/github/spec-kit) compatibility.
 
 | Agent | Flag | What Gets Installed |
 |-------|------|---------------------|
-| Claude Code | `--ai claude` | 9 commands + 23 agents + 6 skills in `.claude/` |
-| GitHub Copilot | `--ai copilot` | `.github/prompts/` with workflow prompts |
-| Cursor | `--ai cursor` | `.cursor/` with rules |
-| Gemini | `--ai gemini` | `.gemini/` with prompts |
+| **Claude Code** | `--ai claude` | ✅ Full: 9 commands + 23 agents + 6 skills |
+| GitHub Copilot | `--ai copilot` | Workflow prompts in `.github/prompts/` |
+| Cursor | `--ai cursor` | Rules in `.cursor/` |
+| Gemini CLI | `--ai gemini` | Prompts in `.gemini/` |
+| Windsurf | `--ai windsurf` | Rules in `.windsurf/` |
+| Amp | `--ai amp` | Prompts in `.amp/` |
+| Auggie CLI | `--ai auggie` | Prompts in `.auggie/` |
+| CodeBuddy CLI | `--ai codebuddy` | Prompts in `.codebuddy/` |
+| Codex CLI | `--ai codex` | Prompts in `.codex/` |
+| IBM Bob | `--ai bob` | Prompts in `.bob/` |
+| Jules | `--ai jules` | Prompts in `.jules/` |
+| Kilo Code | `--ai kilo` | Prompts in `.kilo/` |
+| opencode | `--ai opencode` | Prompts in `.opencode/` |
+| Qwen Code | `--ai qwen` | Prompts in `.qwen/` |
+| Roo Code | `--ai roo` | Prompts in `.roo/` |
+| SHAI (OVHcloud) | `--ai shai` | Prompts in `.shai/` |
+| Qoder CLI | `--ai qoder` | Prompts in `.qoder/` |
+
+> **Note:** Claude Code has full support with slash commands, agents, and skills. Other agents get workflow prompts that reference the SF Compound Engineering methodology.
 
 ---
 

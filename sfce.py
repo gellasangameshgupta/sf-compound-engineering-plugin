@@ -531,27 +531,112 @@ print_info "Use: cat .specify/specs/<name>/spec.md"
 '''
 
 # AI agent configurations
+# Based on GitHub Spec-Kit supported agents: https://github.com/github/spec-kit
 AI_AGENTS = {
+    # Primary support (with full commands, agents, skills)
     'claude': {
         'name': 'Claude Code',
         'prompt_dir': '.claude',
-        'prompt_file': 'commands.md'
+        'prompt_file': 'commands.md',
+        'full_support': True  # Installs commands, agents, skills
     },
+    # Standard support (workflow prompts)
     'copilot': {
         'name': 'GitHub Copilot',
         'prompt_dir': '.github/prompts',
-        'prompt_file': None  # Creates individual files
+        'prompt_file': 'sf-workflow.md',
+        'full_support': False
     },
     'cursor': {
         'name': 'Cursor',
         'prompt_dir': '.cursor',
-        'prompt_file': 'rules.md'
+        'prompt_file': 'rules.md',
+        'full_support': False
     },
     'gemini': {
         'name': 'Gemini CLI',
         'prompt_dir': '.gemini',
-        'prompt_file': 'prompts.md'
-    }
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'windsurf': {
+        'name': 'Windsurf',
+        'prompt_dir': '.windsurf',
+        'prompt_file': 'rules.md',
+        'full_support': False
+    },
+    'amp': {
+        'name': 'Amp',
+        'prompt_dir': '.amp',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'auggie': {
+        'name': 'Auggie CLI',
+        'prompt_dir': '.auggie',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'codebuddy': {
+        'name': 'CodeBuddy CLI',
+        'prompt_dir': '.codebuddy',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'codex': {
+        'name': 'Codex CLI',
+        'prompt_dir': '.codex',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'bob': {
+        'name': 'IBM Bob',
+        'prompt_dir': '.bob',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'jules': {
+        'name': 'Jules',
+        'prompt_dir': '.jules',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'kilo': {
+        'name': 'Kilo Code',
+        'prompt_dir': '.kilo',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'opencode': {
+        'name': 'opencode',
+        'prompt_dir': '.opencode',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'qwen': {
+        'name': 'Qwen Code',
+        'prompt_dir': '.qwen',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'roo': {
+        'name': 'Roo Code',
+        'prompt_dir': '.roo',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'shai': {
+        'name': 'SHAI (OVHcloud)',
+        'prompt_dir': '.shai',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
+    'qoder': {
+        'name': 'Qoder CLI',
+        'prompt_dir': '.qoder',
+        'prompt_file': 'prompts.md',
+        'full_support': False
+    },
 }
 
 def create_directory_structure(project_path: Path, force: bool = False):
@@ -713,8 +798,8 @@ def setup_ai_agent(project_path: Path, agent: str):
     config = AI_AGENTS[agent]
     print_info(f"Setting up for {config['name']}...")
 
-    # For Claude, install commands, agents, and skills
-    if agent == 'claude':
+    # For agents with full support, install commands, agents, and skills
+    if config.get('full_support', False):
         install_commands(project_path)
         install_agents(project_path)
         install_skills(project_path)
@@ -940,8 +1025,8 @@ Workflow:
     init_parser.add_argument('project', nargs='?', default='.', help='Project directory (default: current)')
     init_parser.add_argument('--here', action='store_true', help='Initialize in current directory')
     init_parser.add_argument('--force', action='store_true', help='Overwrite existing .specify')
-    init_parser.add_argument('--ai', choices=['claude', 'copilot', 'cursor', 'gemini'],
-                            help='Set up for specific AI agent')
+    init_parser.add_argument('--ai', choices=list(AI_AGENTS.keys()),
+                            help='Set up for specific AI agent (claude, copilot, cursor, gemini, windsurf, amp, auggie, codebuddy, codex, bob, jules, kilo, opencode, qwen, roo, shai, qoder)')
 
     # Update command
     update_parser = subparsers.add_parser('update', help='Update commands, agents, and skills to latest')
