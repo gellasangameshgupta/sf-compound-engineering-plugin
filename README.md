@@ -10,7 +10,7 @@ Similar to GitHub's [`specify init`](https://github.com/github/spec-kit), but wi
 
 ```bash
 # Initialize in your Salesforce project (no install required)
-uvx --from git+https://github.com/gellasangameshgupta/sf-compound-engineering.git sfce init . --ai claude
+uvx --from git+https://github.com/gellasangameshgupta/sf-compound-engineering-plugin.git sfce init . --ai claude
 ```
 
 That's it! You now have:
@@ -28,17 +28,17 @@ That's it! You now have:
 
 ```bash
 # One-time run, no install needed
-uvx --from git+https://github.com/gellasangameshgupta/sf-compound-engineering.git sfce init .
+uvx --from git+https://github.com/gellasangameshgupta/sf-compound-engineering-plugin.git sfce init .
 
 # With Claude Code setup (installs commands)
-uvx --from git+https://github.com/gellasangameshgupta/sf-compound-engineering.git sfce init . --ai claude
+uvx --from git+https://github.com/gellasangameshgupta/sf-compound-engineering-plugin.git sfce init . --ai claude
 ```
 
 ### Option 2: Permanent Install
 
 ```bash
 # Install globally
-uv tool install --from git+https://github.com/gellasangameshgupta/sf-compound-engineering.git sfce-cli
+uv tool install git+https://github.com/gellasangameshgupta/sf-compound-engineering-plugin.git
 
 # Then use anywhere
 sfce init .
@@ -48,7 +48,7 @@ sfce init my-project --ai claude
 ### Option 3: pip install
 
 ```bash
-pip install git+https://github.com/gellasangameshgupta/sf-compound-engineering.git
+pip install git+https://github.com/gellasangameshgupta/sf-compound-engineering-plugin.git
 
 sfce init . --ai claude
 ```

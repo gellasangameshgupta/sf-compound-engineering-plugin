@@ -39,8 +39,8 @@ classifiers = [
 sfce = "sfce:main"
 
 [project.urls]
-Homepage = "https://github.com/gellasangameshgupta/sf-compound-engineering"
-Repository = "https://github.com/gellasangameshgupta/sf-compound-engineering"
+Homepage = "https://github.com/gellasangameshgupta/sf-compound-engineering-plugin"
+Repository = "https://github.com/gellasangameshgupta/sf-compound-engineering-plugin"
 
 [tool.hatch.build.targets.wheel]
 packages = ["."]
