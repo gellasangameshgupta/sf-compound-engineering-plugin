@@ -20,12 +20,28 @@ A plugin that gives Claude deep Salesforce expertise for:
 
 ## 📦 Installation
 
+### Option 1: Initialize in Any Project (Recommended)
+
+Use the CLI to add Spec-Driven Development workflow to any Salesforce project:
+
+```bash
+# Using uvx (no install required)
+uvx --from git+https://github.com/gellasangameshgupta/sf-compound-engineering-plugin.git#subdirectory=cli sfce init .
+
+# Or with AI agent setup
+uvx --from git+https://github.com/gellasangameshgupta/sf-compound-engineering-plugin.git#subdirectory=cli sfce init . --ai claude
+```
+
+This creates the `.specify/` folder with templates and scripts — similar to `specify init` from [GitHub Spec-Kit](https://github.com/github/spec-kit).
+
+### Option 2: Install as Claude Code Plugin
+
 ```bash
 # Clone the repository
-git clone https://github.com/gellasangameshgupta/sf-compound-engineering-marketplace.git
+git clone https://github.com/gellasangameshgupta/sf-compound-engineering-plugin.git
 
 # Install in Claude Code
-/plugin install /path/to/sf-compound-engineering-marketplace
+/plugin install /path/to/sf-compound-engineering-plugin
 ```
 
 ---
