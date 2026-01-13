@@ -10,6 +10,10 @@ Usage:
     sfce init my-project           # Create and initialize new project
     sfce init . --ai claude        # Specify AI agent
     sfce init . --force            # Overwrite existing .specify folder
+    sfce update                    # Update commands, agents, skills to latest
+    sfce update --commands-only    # Only update commands
+    sfce update --agents-only      # Only update agents
+    sfce update --skills-only      # Only update skills
 """
 
 import argparse
@@ -763,6 +767,103 @@ See `.specify/memory/constitution.md` for project principles including:
 
     print_success(f"Configured for {config['name']}")
 
+def update_command(args):
+    """Update SF Compound Engineering components to latest version."""
+    print_banner()
+
+    project_path = Path.cwd()
+    claude_dir = project_path / '.claude'
+
+    if not claude_dir.exists():
+        print_error("No .claude directory found. Run 'sfce init . --ai claude' first.")
+        return 1
+
+    print_info(f"Updating SF Compound Engineering in: {project_path}")
+    print()
+
+    updated = False
+
+    # Determine what to update
+    update_all = not (args.commands_only or args.agents_only or args.skills_only)
+
+    # Update commands
+    if update_all or args.commands_only:
+        print_info("Updating commands...")
+        commands_dir = claude_dir / 'commands'
+
+        # Backup existing commands (only sf-* commands)
+        if commands_dir.exists() and not args.no_backup:
+            backup_dir = commands_dir / '.backup'
+            backup_dir.mkdir(exist_ok=True)
+            for cmd_file in commands_dir.glob('sf-*.md'):
+                shutil.copy(cmd_file, backup_dir / cmd_file.name)
+            print_info(f"Backed up existing commands to {backup_dir}")
+
+        if install_commands(project_path):
+            updated = True
+        print()
+
+    # Update agents
+    if update_all or args.agents_only:
+        print_info("Updating agents...")
+        agents_dir = claude_dir / 'agents'
+
+        # Backup existing agents
+        if agents_dir.exists() and not args.no_backup:
+            backup_dir = claude_dir / '.agents-backup'
+            if backup_dir.exists():
+                shutil.rmtree(backup_dir)
+            shutil.copytree(agents_dir, backup_dir)
+            print_info(f"Backed up existing agents to {backup_dir}")
+
+        # Remove existing agents and reinstall
+        if agents_dir.exists():
+            shutil.rmtree(agents_dir)
+
+        if install_agents(project_path):
+            updated = True
+        print()
+
+    # Update skills
+    if update_all or args.skills_only:
+        print_info("Updating skills...")
+        skills_dir = claude_dir / 'skills'
+
+        # Backup existing skills
+        if skills_dir.exists() and not args.no_backup:
+            backup_dir = claude_dir / '.skills-backup'
+            if backup_dir.exists():
+                shutil.rmtree(backup_dir)
+            shutil.copytree(skills_dir, backup_dir)
+            print_info(f"Backed up existing skills to {backup_dir}")
+
+        # Remove existing skills and reinstall
+        if skills_dir.exists():
+            shutil.rmtree(skills_dir)
+
+        if install_skills(project_path):
+            updated = True
+        print()
+
+    if updated:
+        print_success("Update complete!")
+        print()
+        print_info("What was updated:")
+        if update_all or args.commands_only:
+            print("  • 9 slash commands (/sf-plan, /sf-work, etc.)")
+        if update_all or args.agents_only:
+            print("  • 23 specialized agents (apex, lwc, automation, integration, architecture)")
+        if update_all or args.skills_only:
+            print("  • 6 skills (governor-limits, apex-patterns, security-guide, etc.)")
+        print()
+        if not args.no_backup:
+            print_info("Backups saved in .claude/ directory. Delete them after verifying the update.")
+    else:
+        print_warning("No updates were applied.")
+
+    return 0
+
+
 def init_command(args):
     """Initialize SF Compound Engineering in a project."""
     print_banner()
@@ -820,6 +921,10 @@ Examples:
   sfce init my-project           Create and initialize new project
   sfce init . --ai claude        Set up for Claude Code
   sfce init . --force            Overwrite existing .specify
+  sfce update                    Update all components to latest
+  sfce update --commands-only    Only update commands
+  sfce update --agents-only      Only update agents
+  sfce update --skills-only      Only update skills
 
 Workflow:
   /sf-plan → /sf-work → /sf-review → /sf-triage → /sf-resolve → /sf-test → /sf-document → /sf-health → /sf-deploy
@@ -838,10 +943,19 @@ Workflow:
     init_parser.add_argument('--ai', choices=['claude', 'copilot', 'cursor', 'gemini'],
                             help='Set up for specific AI agent')
 
+    # Update command
+    update_parser = subparsers.add_parser('update', help='Update commands, agents, and skills to latest')
+    update_parser.add_argument('--commands-only', action='store_true', help='Only update commands')
+    update_parser.add_argument('--agents-only', action='store_true', help='Only update agents')
+    update_parser.add_argument('--skills-only', action='store_true', help='Only update skills')
+    update_parser.add_argument('--no-backup', action='store_true', help='Skip creating backups')
+
     args = parser.parse_args()
 
     if args.command == 'init':
         return init_command(args)
+    elif args.command == 'update':
+        return update_command(args)
     else:
         parser.print_help()
         return 0

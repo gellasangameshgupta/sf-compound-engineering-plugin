@@ -155,12 +155,22 @@ Include negative tests and mock callouts.
 ## CLI Commands
 
 ```bash
+# Initialize
 sfce init .                    # Initialize in current directory
 sfce init my-project           # Create new project and initialize
 sfce init . --ai claude        # Set up for Claude Code (installs commands)
 sfce init . --ai copilot       # Set up for GitHub Copilot
 sfce init . --ai cursor        # Set up for Cursor
 sfce init . --force            # Overwrite existing .specify folder
+
+# Update (pull latest commands, agents, skills)
+sfce update                    # Update all components
+sfce update --commands-only    # Only update slash commands
+sfce update --agents-only      # Only update agents
+sfce update --skills-only      # Only update skills
+sfce update --no-backup        # Skip creating backups
+
+# Info
 sfce --version                 # Show version
 sfce --help                    # Show help
 ```
