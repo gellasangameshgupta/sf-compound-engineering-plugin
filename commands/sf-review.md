@@ -1,5 +1,5 @@
 ---
-name: sf:review
+name: sf-review
 description: Perform exhaustive multi-agent Salesforce code review
 arguments:
   - name: target
@@ -13,7 +13,7 @@ Performs comprehensive, multi-agent code review specifically designed for Salesf
 
 ## Workflow
 
-When the user runs `/sf:review [target]`, execute the following:
+When the user runs `/sf-review [target]`, execute the following:
 
 ### Step 1: Determine Review Target
 
@@ -205,8 +205,8 @@ Review complete! Found X issues across Y files.
 🟠 3 High - Should fix before merge
 🟡 5 Medium - Consider fixing
 
-Run `/sf:triage` to review findings one by one.
-Run `/sf:resolve` to auto-fix applicable issues.
+Run `/sf-triage` to review findings one by one.
+Run `/sf-resolve` to auto-fix applicable issues.
 
 View full report: review-report-2024-01-15.md
 ```
@@ -249,25 +249,25 @@ Users can configure review behavior in `.sf-compound/config.json`:
 
 ### Review Uncommitted Changes
 ```bash
-/sf:review
+/sf-review
 # Reviews all uncommitted changes in git
 ```
 
 ### Review Specific PR
 ```bash
-/sf:review 123
+/sf-review 123
 # Fetches and reviews PR #123
 ```
 
 ### Review Specific File
 ```bash
-/sf:review force-app/main/default/classes/AccountService.cls
+/sf-review force-app/main/default/classes/AccountService.cls
 # Deep review of single file
 ```
 
 ### Review Directory
 ```bash
-/sf:review force-app/main/default/lwc/accountList/
+/sf-review force-app/main/default/lwc/accountList/
 # Reviews all files in LWC component
 ```
 
@@ -279,7 +279,7 @@ The review command can be used in CI pipelines:
 # GitHub Actions example
 - name: Salesforce Code Review
   run: |
-    claude /sf:review --ci --severity-threshold high
+    claude /sf-review --ci --severity-threshold high
     
 # Exit code:
 # 0 = No critical/high issues

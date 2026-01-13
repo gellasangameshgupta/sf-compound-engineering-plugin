@@ -1,5 +1,5 @@
 ---
-name: sf:health
+name: sf-health
 description: Analyze Salesforce org health, technical debt, and provide improvement recommendations
 arguments:
   - name: scope

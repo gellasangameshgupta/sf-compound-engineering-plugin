@@ -1,5 +1,5 @@
 ---
-name: sf:triage
+name: sf-triage
 description: Present review findings one-by-one and convert approved items to actionable todos
 arguments:
   - name: report
@@ -9,7 +9,7 @@ arguments:
 
 # Salesforce Triage Command
 
-Interactively review findings from `/sf:review` and convert approved items into actionable todos.
+Interactively review findings from `/sf-review` and convert approved items into actionable todos.
 
 ## Workflow
 

@@ -14,7 +14,7 @@ uvx --from git+https://github.com/gellasangameshgupta/sf-compound-engineering-pl
 ```
 
 That's it! You now have:
-- **9 slash commands** (`/sf:plan`, `/sf:work`, `/sf:review`, etc.)
+- **9 slash commands** (`/sf-plan`, `/sf-work`, `/sf-review`, etc.)
 - **23 specialized agents** (apex, lwc, automation, integration, architecture)
 - **6 skills** (governor-limits, apex-patterns, security-guide, etc.)
 - Spec-driven workflow structure
@@ -61,15 +61,15 @@ sfce init . --ai claude
 your-salesforce-project/
 ├── .claude/
 │   ├── commands/                # 9 slash commands
-│   │   ├── plan.md              # /sf:plan - Create implementation plans
-│   │   ├── work.md              # /sf:work - Implement with best practices
-│   │   ├── review.md            # /sf:review - Multi-agent code review
-│   │   ├── triage.md            # /sf:triage - Prioritize findings
-│   │   ├── resolve.md           # /sf:resolve - Fix issues
-│   │   ├── test.md              # /sf:test - Generate tests
-│   │   ├── document.md          # /sf:document - Auto-generate docs
-│   │   ├── health.md            # /sf:health - Deployment readiness
-│   │   └── deploy.md            # /sf:deploy - Deployment checklist
+│   │   ├── plan.md              # /sf-plan - Create implementation plans
+│   │   ├── work.md              # /sf-work - Implement with best practices
+│   │   ├── review.md            # /sf-review - Multi-agent code review
+│   │   ├── triage.md            # /sf-triage - Prioritize findings
+│   │   ├── resolve.md           # /sf-resolve - Fix issues
+│   │   ├── test.md              # /sf-test - Generate tests
+│   │   ├── document.md          # /sf-document - Auto-generate docs
+│   │   ├── health.md            # /sf-health - Deployment readiness
+│   │   └── deploy.md            # /sf-deploy - Deployment checklist
 │   ├── agents/                  # 23 specialized review agents
 │   │   ├── apex/                # Governor limits, security, bulkification
 │   │   ├── lwc/                 # Performance, accessibility, architecture
@@ -102,20 +102,20 @@ your-salesforce-project/
 After initialization, use the commands in sequence:
 
 ```
-/sf:plan → /sf:work → /sf:review → /sf:triage → /sf:resolve → /sf:test → /sf:document → /sf:health → /sf:deploy
+/sf-plan → /sf-work → /sf-review → /sf-triage → /sf-resolve → /sf-test → /sf-document → /sf-health → /sf-deploy
 ```
 
 | Phase | Command | What It Does |
 |-------|---------|--------------|
-| **Specify** | `/sf:plan` | Generate spec & implementation plan from requirements |
-| **Implement** | `/sf:work` | Build following Salesforce best practices |
-| **Validate** | `/sf:review` | Multi-agent code review (governor limits, security, patterns) |
-| **Prioritize** | `/sf:triage` | Categorize and prioritize review findings |
-| **Fix** | `/sf:resolve` | Fix prioritized issues |
-| **Test** | `/sf:test` | Generate comprehensive tests (bulk, negative, mocks) |
-| **Document** | `/sf:document` | Auto-generate ApexDoc and documentation |
-| **Assess** | `/sf:health` | Codebase health check, Go/No-Go decision |
-| **Ship** | `/sf:deploy` | Deployment checklist and validation |
+| **Specify** | `/sf-plan` | Generate spec & implementation plan from requirements |
+| **Implement** | `/sf-work` | Build following Salesforce best practices |
+| **Validate** | `/sf-review` | Multi-agent code review (governor limits, security, patterns) |
+| **Prioritize** | `/sf-triage` | Categorize and prioritize review findings |
+| **Fix** | `/sf-resolve` | Fix prioritized issues |
+| **Test** | `/sf-test` | Generate comprehensive tests (bulk, negative, mocks) |
+| **Document** | `/sf-document` | Auto-generate ApexDoc and documentation |
+| **Assess** | `/sf-health` | Codebase health check, Go/No-Go decision |
+| **Ship** | `/sf-deploy` | Deployment checklist and validation |
 
 ---
 
@@ -128,14 +128,14 @@ After initialization, use the commands in sequence:
 .specify/scripts/create-new-feature.sh lead-scoring
 
 # Generate the plan with Claude
-/sf:plan "Build a lead scoring system that calculates scores based on
+/sf-plan "Build a lead scoring system that calculates scores based on
 email opens, web visits, and form submissions"
 ```
 
 ### Review Existing Code
 
 ```
-/sf:review
+/sf-review
 
 Review the AccountTriggerHandler and AccountService classes
 for governor limits and security issues.
@@ -144,7 +144,7 @@ for governor limits and security issues.
 ### Generate Tests
 
 ```
-/sf:test
+/sf-test
 
 Generate bulk tests for LeadScoringService with 200+ records.
 Include negative tests and mock callouts.

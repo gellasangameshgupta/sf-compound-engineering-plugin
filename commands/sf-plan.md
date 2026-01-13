@@ -1,5 +1,5 @@
 ---
-name: sf:plan
+name: sf-plan
 description: Create comprehensive Salesforce implementation plans from feature descriptions
 arguments:
   - name: feature_description
@@ -13,7 +13,7 @@ Create detailed, actionable implementation plans for Salesforce features. This c
 
 ## Workflow
 
-When the user runs `/sf:plan [feature description]`, execute the following steps:
+When the user runs `/sf-plan [feature description]`, execute the following steps:
 
 ### Step 1: Understand the Request
 
@@ -193,13 +193,13 @@ Present the plan to the user with:
 1. Summary of the approach
 2. Key decisions and trade-offs
 3. Questions needing input
-4. Next steps to execute with `/sf:work`
+4. Next steps to execute with `/sf-work`
 
 ## Example Usage
 
 ### Input
 ```
-/sf:plan "Lead scoring automation that calculates score based on email opens, 
+/sf-plan "Lead scoring automation that calculates score based on email opens, 
 web visits, and form submissions. Scores should update in real-time and 
 trigger assignment to sales reps when score exceeds threshold."
 ```

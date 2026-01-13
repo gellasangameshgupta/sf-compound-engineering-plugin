@@ -1,5 +1,5 @@
 ---
-name: sf:work
+name: sf-work
 description: Execute Salesforce implementation plans systematically with validation
 arguments:
   - name: plan_file
@@ -9,11 +9,11 @@ arguments:
 
 # Salesforce Work Execution Command
 
-Executes implementation plans created by `/sf:plan` systematically, with continuous validation and Salesforce-specific checks.
+Executes implementation plans created by `/sf-plan` systematically, with continuous validation and Salesforce-specific checks.
 
 ## Workflow
 
-When the user runs `/sf:work [plan file]`, execute the following:
+When the user runs `/sf-work [plan file]`, execute the following:
 
 ### Step 1: Load and Parse Plan
 
@@ -253,7 +253,7 @@ Todo: Create accountScoreCard LWC
 ### Starting a Work Session
 
 ```bash
-/sf:work plans/lead-scoring.md
+/sf-work plans/lead-scoring.md
 
 Output:
 📋 Loaded plan: Lead Scoring Automation
@@ -284,20 +284,20 @@ TODO-002: Create custom field Last_Score_Date__c on Lead
 
 ```bash
 # Save progress
-/sf:work --pause
+/sf-work --pause
 
 Output:
 💾 Progress saved to .sf-compound/work-session.json
    Completed: 8/16 todos
    Current phase: Phase 2 - Backend Logic
    
-Resume with: /sf:work --resume
+Resume with: /sf-work --resume
 ```
 
 ### Resuming Work
 
 ```bash
-/sf:work --resume
+/sf-work --resume
 
 Output:
 📋 Resuming: Lead Scoring Automation
@@ -391,11 +391,11 @@ Choice [1/2/3]:
 
 ```bash
 # After work, run review
-/sf:review
+/sf-review
 
 # If issues found, resolve them
-/sf:resolve
+/sf-resolve
 
 # Then deploy
-/sf:deploy sandbox
+/sf-deploy sandbox
 ```

@@ -1,5 +1,5 @@
 ---
-name: sf:deploy
+name: sf-deploy
 description: Create comprehensive deployment checklists and validate deployments to Salesforce orgs
 arguments:
   - name: environment

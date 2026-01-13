@@ -62,22 +62,22 @@ CONSTITUTION_TEMPLATE = '''# Project Constitution
 This project uses **Spec-Driven Development** powered by SF Compound Engineering commands:
 
 ```
-/sf:plan → /sf:work → /sf:review → /sf:triage → /sf:resolve → /sf:test → /sf:document → /sf:health → /sf:deploy
+/sf-plan → /sf-work → /sf-review → /sf-triage → /sf-resolve → /sf-test → /sf-document → /sf-health → /sf-deploy
 ```
 
 ### Workflow Phases
 
 | Phase | Command | Purpose |
 |-------|---------|---------|
-| Specify | `/sf:plan` | Define requirements & technical plan |
-| Implement | `/sf:work` | Build following the plan |
-| Validate | `/sf:review` | 23-agent code review |
-| Prioritize | `/sf:triage` | Triage findings |
-| Fix | `/sf:resolve` | Fix prioritized issues |
-| Test | `/sf:test` | Generate comprehensive tests |
-| Document | `/sf:document` | Auto-generate docs |
-| Assess | `/sf:health` | Go/No-Go decision |
-| Ship | `/sf:deploy` | Deployment checklist |
+| Specify | `/sf-plan` | Define requirements & technical plan |
+| Implement | `/sf-work` | Build following the plan |
+| Validate | `/sf-review` | 23-agent code review |
+| Prioritize | `/sf-triage` | Triage findings |
+| Fix | `/sf-resolve` | Fix prioritized issues |
+| Test | `/sf-test` | Generate comprehensive tests |
+| Document | `/sf-document` | Auto-generate docs |
+| Assess | `/sf-health` | Go/No-Go decision |
+| Ship | `/sf-deploy` | Deployment checklist |
 
 ---
 
@@ -113,7 +113,7 @@ This project uses **Spec-Driven Development** powered by SF Compound Engineering
 
 ## Quality Gates
 
-- All changes must pass `/sf:review`
+- All changes must pass `/sf-review`
 - CRITICAL issues block deployment
 - Security findings have zero tolerance
 
@@ -128,7 +128,7 @@ SPEC_TEMPLATE = '''# [Feature Name] - Specification
 > **Version:** 0.1.0
 > **Created:** YYYY-MM-DD
 > **Author:** [Author Name]
-> **Generated with:** `/sf:plan`
+> **Generated with:** `/sf-plan`
 
 ## Overview
 
@@ -177,10 +177,10 @@ SPEC_TEMPLATE = '''# [Feature Name] - Specification
 
 ## Next Steps
 
-1. `/sf:work` - Implement the feature
-2. `/sf:review` - Multi-agent code review
-3. `/sf:test` - Generate tests
-4. `/sf:deploy` - Deployment checklist
+1. `/sf-work` - Implement the feature
+2. `/sf-review` - Multi-agent code review
+3. `/sf-test` - Generate tests
+4. `/sf-deploy` - Deployment checklist
 
 ---
 
@@ -192,7 +192,7 @@ PLAN_TEMPLATE = '''# [Feature Name] - Technical Plan
 > **Status:** Draft | In Review | Approved | Implemented
 > **Version:** 0.1.0
 > **Spec Reference:** [spec.md](./spec.md)
-> **Generated with:** `/sf:plan`
+> **Generated with:** `/sf-plan`
 
 ## Technical Context
 
@@ -243,14 +243,14 @@ PLAN_TEMPLATE = '''# [Feature Name] - Technical Plan
 ## Workflow Commands
 
 Execute in order:
-1. `/sf:work` - Implement components
-2. `/sf:review` - 23-agent code review
-3. `/sf:triage` - Prioritize findings
-4. `/sf:resolve` - Fix issues
-5. `/sf:test` - Generate tests
-6. `/sf:document` - Generate docs
-7. `/sf:health` - Final check
-8. `/sf:deploy` - Deploy checklist
+1. `/sf-work` - Implement components
+2. `/sf-review` - 23-agent code review
+3. `/sf-triage` - Prioritize findings
+4. `/sf-resolve` - Fix issues
+5. `/sf-test` - Generate tests
+6. `/sf-document` - Generate docs
+7. `/sf-health` - Final check
+8. `/sf-deploy` - Deploy checklist
 
 ---
 
@@ -271,7 +271,7 @@ TASKS_TEMPLATE = '''# [Feature Name] - Tasks
 
 ---
 
-## Phase 1: Implement (`/sf:work`)
+## Phase 1: Implement (`/sf-work`)
 
 - [ ] [P] Create Apex classes
 - [ ] [P] Create LWC components
@@ -280,7 +280,7 @@ TASKS_TEMPLATE = '''# [Feature Name] - Tasks
 
 ---
 
-## Phase 2: Review (`/sf:review`)
+## Phase 2: Review (`/sf-review`)
 
 - [ ] Run multi-agent review
 - [ ] Address CRITICAL findings
@@ -288,7 +288,7 @@ TASKS_TEMPLATE = '''# [Feature Name] - Tasks
 
 ---
 
-## Phase 3: Test (`/sf:test`)
+## Phase 3: Test (`/sf-test`)
 
 - [ ] Generate unit tests
 - [ ] Generate bulk tests (200+ records)
@@ -296,7 +296,7 @@ TASKS_TEMPLATE = '''# [Feature Name] - Tasks
 
 ---
 
-## Phase 4: Ship (`/sf:health` → `/sf:deploy`)
+## Phase 4: Ship (`/sf-health` → `/sf-deploy`)
 
 - [ ] Run health assessment
 - [ ] Generate deployment checklist
@@ -466,17 +466,17 @@ main() {
     echo ""
     print_info "SF Compound Engineering Workflow:"
     echo ""
-    echo "  1. /sf:plan    → Generate spec and plan"
-    echo "  2. /sf:work    → Implement the feature"
-    echo "  3. /sf:review  → Multi-agent code review"
-    echo "  4. /sf:triage  → Prioritize findings"
-    echo "  5. /sf:resolve → Fix issues"
-    echo "  6. /sf:test    → Generate tests"
-    echo "  7. /sf:document→ Generate documentation"
-    echo "  8. /sf:health  → Final health check"
-    echo "  9. /sf:deploy  → Deployment checklist"
+    echo "  1. /sf-plan    → Generate spec and plan"
+    echo "  2. /sf-work    → Implement the feature"
+    echo "  3. /sf-review  → Multi-agent code review"
+    echo "  4. /sf-triage  → Prioritize findings"
+    echo "  5. /sf-resolve → Fix issues"
+    echo "  6. /sf-test    → Generate tests"
+    echo "  7. /sf-document→ Generate documentation"
+    echo "  8. /sf-health  → Final health check"
+    echo "  9. /sf-deploy  → Deployment checklist"
     echo ""
-    echo "Start with: /sf:plan \\"$name\\""
+    echo "Start with: /sf-plan \\"$name\\""
 }
 
 main "$@"
@@ -603,11 +603,13 @@ def install_commands(project_path: Path):
     source_commands_dir = cli_dir / 'commands'
 
     if source_commands_dir.exists():
-        # Copy commands from package
-        for cmd_file in source_commands_dir.glob('*.md'):
+        # Copy commands from package (files are named sf-*.md)
+        for cmd_file in source_commands_dir.glob('sf-*.md'):
             dest_file = commands_dir / cmd_file.name
             shutil.copy(cmd_file, dest_file)
-            print_success(f"Installed command: /sf:{cmd_file.stem}")
+            # Extract command name from sf-plan.md -> /sf-plan
+            cmd_name = cmd_file.stem  # sf-plan
+            print_success(f"Installed command: /{cmd_name}")
     else:
         # Fallback: create minimal command stubs
         print_warning("Command files not found in package, creating stubs...")
@@ -679,11 +681,11 @@ def create_command_stubs(commands_dir: Path):
 
     for name, desc in commands.items():
         stub = f'''---
-name: sf:{name}
+name: sf-{name}
 description: {desc}
 ---
 
-# /sf:{name}
+# /sf-{name}
 
 {desc}
 
@@ -692,11 +694,11 @@ See `.specify/memory/constitution.md` for project principles.
 ## Usage
 
 ```
-/sf:{name} [description]
+/sf-{name} [description]
 ```
 '''
-        (commands_dir / f'{name}.md').write_text(stub)
-        print_success(f"Created stub: /sf:{name}")
+        (commands_dir / f'sf-{name}.md').write_text(stub)
+        print_success(f"Created stub: /sf-{name}")
 
 def setup_ai_agent(project_path: Path, agent: str):
     """Set up prompts for the specified AI agent."""
@@ -722,22 +724,22 @@ def setup_ai_agent(project_path: Path, agent: str):
 This project uses Spec-Driven Development with the following commands:
 
 ```
-/sf:plan → /sf:work → /sf:review → /sf:triage → /sf:resolve → /sf:test → /sf:document → /sf:health → /sf:deploy
+/sf-plan → /sf-work → /sf-review → /sf-triage → /sf-resolve → /sf-test → /sf-document → /sf-health → /sf-deploy
 ```
 
 ## Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/sf:plan` | Generate spec & plan from requirements |
-| `/sf:work` | Implement following the plan |
-| `/sf:review` | 23-agent code review |
-| `/sf:triage` | Prioritize findings |
-| `/sf:resolve` | Fix prioritized issues |
-| `/sf:test` | Generate comprehensive tests |
-| `/sf:document` | Auto-generate documentation |
-| `/sf:health` | Go/No-Go decision |
-| `/sf:deploy` | Deployment checklist |
+| `/sf-plan` | Generate spec & plan from requirements |
+| `/sf-work` | Implement following the plan |
+| `/sf-review` | 23-agent code review |
+| `/sf-triage` | Prioritize findings |
+| `/sf-resolve` | Fix prioritized issues |
+| `/sf-test` | Generate comprehensive tests |
+| `/sf-document` | Auto-generate documentation |
+| `/sf-health` | Go/No-Go decision |
+| `/sf-deploy` | Deployment checklist |
 
 ## Project Principles
 
@@ -800,10 +802,10 @@ def init_command(args):
     print("     .specify/scripts/create-new-feature.sh my-feature")
     print()
     print("  3. Start the workflow:")
-    print('     /sf:plan "Describe your feature"')
+    print('     /sf-plan "Describe your feature"')
     print()
     print("  Full workflow:")
-    print("  /sf:plan → /sf:work → /sf:review → /sf:triage → /sf:resolve → /sf:test → /sf:document → /sf:health → /sf:deploy")
+    print("  /sf-plan → /sf-work → /sf-review → /sf-triage → /sf-resolve → /sf-test → /sf-document → /sf-health → /sf-deploy")
     print()
 
     return 0
@@ -820,7 +822,7 @@ Examples:
   sfce init . --force            Overwrite existing .specify
 
 Workflow:
-  /sf:plan → /sf:work → /sf:review → /sf:triage → /sf:resolve → /sf:test → /sf:document → /sf:health → /sf:deploy
+  /sf-plan → /sf-work → /sf-review → /sf-triage → /sf-resolve → /sf-test → /sf-document → /sf-health → /sf-deploy
         '''
     )
 

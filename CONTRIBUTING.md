@@ -28,15 +28,15 @@ sf-compound-engineering/
 ├── sfce.py              # Main CLI application
 ├── __init__.py          # Package init
 ├── commands/            # Slash command definitions
-│   ├── plan.md          # /sf:plan
-│   ├── work.md          # /sf:work
-│   ├── review.md        # /sf:review
-│   ├── triage.md        # /sf:triage
-│   ├── resolve.md       # /sf:resolve
-│   ├── test.md          # /sf:test
-│   ├── document.md      # /sf:document
-│   ├── health.md        # /sf:health
-│   └── deploy.md        # /sf:deploy
+│   ├── plan.md          # /sf-plan
+│   ├── work.md          # /sf-work
+│   ├── review.md        # /sf-review
+│   ├── triage.md        # /sf-triage
+│   ├── resolve.md       # /sf-resolve
+│   ├── test.md          # /sf-test
+│   ├── document.md      # /sf-document
+│   ├── health.md        # /sf-health
+│   └── deploy.md        # /sf-deploy
 ├── pyproject.toml       # Python package config
 ├── README.md
 ├── CONTRIBUTING.md
@@ -51,7 +51,7 @@ Commands are markdown files with YAML frontmatter:
 
 ```yaml
 ---
-name: sf:command-name
+name: sf-command-name
 description: What the command does
 arguments:
   - name: arg1

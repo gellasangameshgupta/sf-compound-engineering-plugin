@@ -1,5 +1,5 @@
 ---
-name: sf:resolve
+name: sf-resolve
 description: Resolve multiple todos in parallel with AI assistance
 arguments:
   - name: filter

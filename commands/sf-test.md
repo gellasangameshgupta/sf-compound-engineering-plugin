@@ -1,5 +1,5 @@
 ---
-name: sf:test
+name: sf-test
 description: Comprehensive Apex test analysis, execution, and coverage reporting
 arguments:
   - name: scope
