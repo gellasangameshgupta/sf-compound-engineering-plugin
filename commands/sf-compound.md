@@ -178,18 +178,59 @@ Call Task tool 4 times in a SINGLE message:
    - description: "Update CLAUDE.md"
    - subagent_type: "general-purpose"
    - prompt: |
-     Update CLAUDE.md with project-specific context.
+     Update CLAUDE.md with project-specific context and Salesforce learnings.
 
      Learnings to add: [FROM LEARNING EXTRACTION]
 
-     Add to CLAUDE.md:
-     - Naming conventions discovered
-     - Architecture decisions
-     - Integration endpoints
-     - Org-specific patterns
-     - Common workflows
+     STEP 1 - Read current CLAUDE.md:
+     - Read file: CLAUDE.md (or create if doesn't exist)
 
-     Return: CLAUDE.md additions
+     STEP 2 - Add these sections if not present:
+
+     ## Salesforce Project Context
+     - Org type (scratch, sandbox, production)
+     - API version in use
+     - Package namespace (if any)
+
+     ## Naming Conventions
+     - Apex class naming patterns discovered
+     - LWC component naming patterns
+     - Custom object/field prefixes
+
+     ## Architecture Decisions
+     - Trigger handler framework in use
+     - Service layer patterns
+     - Error handling approach
+     - Logging framework
+
+     ## Governor Limit Learnings
+     - Bulk patterns that worked well
+     - SOQL optimization techniques used
+     - CPU-intensive operations to avoid
+
+     ## Security Patterns
+     - CRUD/FLS enforcement approach
+     - Sharing model decisions
+     - Permission set strategy
+
+     ## Integration Endpoints
+     - Named Credentials configured
+     - External services connected
+     - Platform Events in use
+
+     ## Common Workflows
+     - Development workflow commands
+     - Deployment process
+     - Testing approach
+
+     ## Gotchas & Tips
+     - Org-specific quirks discovered
+     - Things that were harder than expected
+     - Time-saving discoveries
+
+     STEP 3 - Preserve existing content, only ADD new learnings
+
+     Return: Summary of CLAUDE.md updates made
 
 4. Task tool call:
    - description: "Save test fixtures"

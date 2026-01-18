@@ -51,8 +51,9 @@ def print_banner():
 {Colors.BOLD}╔═══════════════════════════════════════════════════════════╗
 ║       SF Compound Engineering - Parallel Subagents          ║
 ║                                                             ║
-║  23 agents • 10 commands • 6 skills • WebSearch enabled     ║
-║  Plan(40%) → Work(20%) → Review(20%) → Compound(20%)        ║
+║  23 agents • 4 commands • 6 skills • WebSearch enabled      ║
+║  /sf-plan (40%) → /sf-work (20%) → /sf-review (20%) →       ║
+║                    /sf-compound (20%)                       ║
 ╚═══════════════════════════════════════════════════════════╝{Colors.RESET}
 """
     print(banner)
@@ -67,19 +68,17 @@ CONSTITUTION_TEMPLATE = '''# Project Constitution
 This project uses **Spec-Driven Development** powered by SF Compound Engineering commands:
 
 ```
-/sf-plan (40%) → /sf-work (20%) → /sf-review (20%) → /sf-resolve → /sf-test → /sf-compound (20%)
+/sf-plan (40%) → /sf-work (20%) → /sf-review (20%) → /sf-compound (20%)
 ```
 
 ### Workflow Phases (Compound Engineering Loop)
 
 | Phase | Command | Effort | Purpose |
 |-------|---------|--------|---------|
-| Plan | `/sf-plan` | 40% | Research & design with 7 parallel subagents |
+| Plan | `/sf-plan` | 40% | Research & design with 7 parallel subagents (NO CODE) |
 | Work | `/sf-work` | 20% | Implement with 6 parallel subagents |
 | Review | `/sf-review` | 20% | 23-agent parallel code review |
-| Fix | `/sf-resolve` | - | Auto-fix issues with specialized subagents |
-| Test | `/sf-test` | - | Run tests, generate missing tests |
-| Compound | `/sf-compound` | 20% | Capture learnings, update skills & agents |
+| Compound | `/sf-compound` | 20% | Capture learnings, update skills, agents & CLAUDE.md |
 
 **Each iteration starts smarter** - learnings compound into agents, skills, and patterns.
 
@@ -182,9 +181,8 @@ SPEC_TEMPLATE = '''# [Feature Name] - Specification
 ## Next Steps
 
 1. `/sf-work` - Implement the feature
-2. `/sf-review` - Multi-agent code review
-3. `/sf-test` - Generate tests
-4. `/sf-deploy` - Deployment checklist
+2. `/sf-review` - Multi-agent code review (23 agents)
+3. `/sf-compound` - Capture learnings
 
 ---
 
@@ -247,14 +245,9 @@ PLAN_TEMPLATE = '''# [Feature Name] - Technical Plan
 ## Workflow Commands
 
 Execute in order:
-1. `/sf-work` - Implement components
-2. `/sf-review` - 23-agent code review
-3. `/sf-triage` - Prioritize findings
-4. `/sf-resolve` - Fix issues
-5. `/sf-test` - Generate tests
-6. `/sf-document` - Generate docs
-7. `/sf-health` - Final check
-8. `/sf-deploy` - Deploy checklist
+1. `/sf-work` - Implement components (6 parallel subagents)
+2. `/sf-review` - 23-agent parallel code review
+3. `/sf-compound` - Capture learnings to skills, agents, CLAUDE.md
 
 ---
 
@@ -292,19 +285,12 @@ TASKS_TEMPLATE = '''# [Feature Name] - Tasks
 
 ---
 
-## Phase 3: Test (`/sf-test`)
+## Phase 3: Compound (`/sf-compound`)
 
-- [ ] Generate unit tests
-- [ ] Generate bulk tests (200+ records)
-- [ ] Verify 90%+ coverage
-
----
-
-## Phase 4: Ship (`/sf-health` → `/sf-deploy`)
-
-- [ ] Run health assessment
-- [ ] Generate deployment checklist
-- [ ] Execute deployment
+- [ ] Analyze patterns discovered
+- [ ] Update skills with new patterns
+- [ ] Enhance agents with new checks
+- [ ] Update CLAUDE.md with learnings
 
 ---
 
@@ -312,10 +298,10 @@ TASKS_TEMPLATE = '''# [Feature Name] - Tasks
 
 | Phase | Tasks | Completed | Remaining |
 |-------|-------|-----------|-----------|
+| Plan | X | 0 | X |
 | Implement | X | 0 | X |
 | Review | X | 0 | X |
-| Test | X | 0 | X |
-| Ship | X | 0 | X |
+| Compound | X | 0 | X |
 
 ---
 
@@ -470,15 +456,10 @@ main() {
     echo ""
     print_info "SF Compound Engineering Workflow:"
     echo ""
-    echo "  1. /sf-plan    → Generate spec and plan"
-    echo "  2. /sf-work    → Implement the feature"
-    echo "  3. /sf-review  → Multi-agent code review"
-    echo "  4. /sf-triage  → Prioritize findings"
-    echo "  5. /sf-resolve → Fix issues"
-    echo "  6. /sf-test    → Generate tests"
-    echo "  7. /sf-document→ Generate documentation"
-    echo "  8. /sf-health  → Final health check"
-    echo "  9. /sf-deploy  → Deployment checklist"
+    echo "  1. /sf-plan    → Research & design specs (40%) - NO CODE"
+    echo "  2. /sf-work    → Implement the feature (20%)"
+    echo "  3. /sf-review  → 23-agent code review (20%)"
+    echo "  4. /sf-compound→ Capture learnings (20%)"
     echo ""
     echo "Start with: /sf-plan \\"$name\\""
 }
@@ -757,15 +738,10 @@ def install_skills(project_path: Path):
 def create_command_stubs(commands_dir: Path):
     """Create minimal command stubs if full commands aren't available."""
     commands = {
-        'plan': 'Create implementation plans from feature descriptions',
-        'work': 'Implement features following Salesforce best practices',
-        'review': 'Multi-agent code review (23 specialized agents)',
-        'triage': 'Prioritize and categorize review findings',
-        'resolve': 'Fix prioritized issues from review',
-        'test': 'Generate comprehensive test suites',
-        'document': 'Auto-generate documentation',
-        'health': 'Assess codebase health and deployment readiness',
-        'deploy': 'Create deployment checklists and validate deployments',
+        'plan': 'Research & design specs with 7 parallel subagents (NO CODE)',
+        'work': 'Implement features with 6 parallel subagents',
+        'review': 'Multi-agent code review (23 specialized parallel agents)',
+        'compound': 'Capture learnings to skills, agents, and CLAUDE.md',
     }
 
     for name, desc in commands.items():
@@ -813,22 +789,17 @@ def setup_ai_agent(project_path: Path, agent: str):
 This project uses Spec-Driven Development with the following commands:
 
 ```
-/sf-plan (40%) → /sf-work (20%) → /sf-review (20%) → /sf-resolve → /sf-test → /sf-compound (20%)
+/sf-plan (40%) → /sf-work (20%) → /sf-review (20%) → /sf-compound (20%)
 ```
 
 ## Commands
 
-| Command | Purpose |
-|---------|---------|
-| `/sf-plan` | Generate spec & plan from requirements |
-| `/sf-work` | Implement following the plan |
-| `/sf-review` | 23-agent code review |
-| `/sf-triage` | Prioritize findings |
-| `/sf-resolve` | Fix prioritized issues |
-| `/sf-test` | Generate comprehensive tests |
-| `/sf-document` | Auto-generate documentation |
-| `/sf-health` | Go/No-Go decision |
-| `/sf-deploy` | Deployment checklist |
+| Command | Effort | Purpose |
+|---------|--------|---------|
+| `/sf-plan` | 40% | Research & design specs (7 parallel subagents) - NO CODE |
+| `/sf-work` | 20% | Implement following the plan (6 parallel subagents) |
+| `/sf-review` | 20% | 23-agent parallel code review |
+| `/sf-compound` | 20% | Capture learnings to skills, agents, CLAUDE.md |
 
 ## Project Principles
 
@@ -935,7 +906,7 @@ def update_command(args):
         print()
         print_info("What was updated:")
         if update_all or args.commands_only:
-            print("  • 9 slash commands (/sf-plan, /sf-work, etc.)")
+            print("  • 4 slash commands (/sf-plan, /sf-work, /sf-review, /sf-compound)")
         if update_all or args.agents_only:
             print("  • 23 specialized agents (apex, lwc, automation, integration, architecture)")
         if update_all or args.skills_only:
@@ -990,8 +961,10 @@ def init_command(args):
     print("  3. Start the workflow:")
     print('     /sf-plan "Describe your feature"')
     print()
-    print("  Full workflow:")
-    print("  /sf-plan (40%) → /sf-work (20%) → /sf-review (20%) → /sf-resolve → /sf-test → /sf-compound (20%)")
+    print("  Compound Engineering Loop:")
+    print("  /sf-plan (40%) → /sf-work (20%) → /sf-review (20%) → /sf-compound (20%)")
+    print()
+    print("  Each iteration starts smarter - learnings compound!")
     print()
 
     return 0
@@ -1012,7 +985,7 @@ Examples:
   sfce update --skills-only      Only update skills
 
 Workflow:
-  /sf-plan (40%) → /sf-work (20%) → /sf-review (20%) → /sf-resolve → /sf-test → /sf-compound (20%)
+  /sf-plan (40%) → /sf-work (20%) → /sf-review (20%) → /sf-compound (20%)
         '''
     )
 

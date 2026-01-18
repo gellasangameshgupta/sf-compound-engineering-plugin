@@ -11,6 +11,16 @@ arguments:
 
 Turn feature ideas into detailed Salesforce implementation plans using parallel subagents for research and design.
 
+## CRITICAL: This Command Does NOT Write Code
+
+**DO NOT write any code in /sf-plan.** This command ONLY:
+- Researches patterns and best practices
+- Designs architecture (class names, method signatures, component hierarchy)
+- Creates specifications and task lists
+- Saves plan files to `.specify/specs/`
+
+**Code implementation happens in `/sf-work`** - NOT here.
+
 ## Instructions
 
 When this command is invoked, you MUST follow these steps exactly:
@@ -124,6 +134,8 @@ You MUST call the Task tool 3 times in a SINGLE message:
    - prompt: |
      Design the Apex architecture for: [FEATURE]
 
+     **IMPORTANT: DO NOT write actual code. Only provide design/specifications.**
+
      STEP 1 - Read local agent guidance:
      - Read file: .claude/agents/apex/apex-trigger-architect.md
      - Read file: .claude/skills/apex-patterns/index.md
@@ -133,13 +145,13 @@ You MUST call the Task tool 3 times in a SINGLE message:
      - Search: "Salesforce service layer pattern site:salesforce.stackexchange.com"
      - Search: "Salesforce fflib apex common patterns"
 
-     STEP 3 - Design architecture including:
-     - Trigger + Handler design
-     - Service class methods
-     - Selector class if complex queries
-     - Custom exceptions
+     STEP 3 - Design architecture (NO CODE, just specifications):
+     - Class names and responsibilities
+     - Method signatures (name, parameters, return type)
+     - Relationships between classes
+     - Custom exception names
 
-     Return: Class diagrams and method signatures with pattern references.
+     Return: Architecture diagram and method signatures only. NO implementation code.
 
 2. Task tool call:
    - description: "Design LWC architecture"
