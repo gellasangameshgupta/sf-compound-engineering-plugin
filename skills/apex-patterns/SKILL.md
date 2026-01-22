@@ -1,9 +1,15 @@
 ---
 name: apex-patterns
 description: Common Apex design patterns including Selector, Service, Domain, and Trigger Handler patterns
+scope: APEX_ONLY
 ---
 
 # Apex Design Patterns
+
+**SCOPE: APEX_ONLY** - This skill applies ONLY to Apex classes, triggers, and Apex architecture.
+**DO NOT** use this skill for Flows, LWC frontend code, or declarative automation. For Flow patterns, use `flow-patterns` instead.
+
+---
 
 Common design patterns for scalable, maintainable Salesforce Apex development.
 

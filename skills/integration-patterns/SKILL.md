@@ -1,9 +1,15 @@
 ---
 name: integration-patterns
 description: Salesforce integration patterns for REST, SOAP, Platform Events, and external system connectivity
+scope: INTEGRATION_ONLY
 ---
 
 # Salesforce Integration Patterns
+
+**SCOPE: INTEGRATION_ONLY** - This skill applies ONLY to external integrations (REST, SOAP, Platform Events, Callouts).
+**DO NOT** use this skill for internal Flows, LWC frontend, or standard Apex triggers. For internal Apex, use `apex-patterns`.
+
+---
 
 Comprehensive guide for integrating Salesforce with external systems.
 

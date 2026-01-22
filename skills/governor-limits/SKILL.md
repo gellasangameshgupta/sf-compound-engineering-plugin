@@ -1,9 +1,15 @@
 ---
 name: governor-limits
 description: Complete Salesforce governor limits reference with strategies to avoid and handle limit exceptions
+scope: UNIVERSAL
 ---
 
 # Salesforce Governor Limits Reference
+
+**SCOPE: UNIVERSAL** - This skill applies to ALL Salesforce development (Apex, Flows, LWC with Apex, Integrations).
+**ALWAYS READ** this skill regardless of your task classification. Governor limits apply everywhere.
+
+---
 
 This skill provides comprehensive governor limit information and strategies for writing limit-safe code.
 

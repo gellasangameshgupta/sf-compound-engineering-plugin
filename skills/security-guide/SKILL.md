@@ -1,9 +1,15 @@
 ---
 name: security-guide
 description: Comprehensive Salesforce security best practices and implementation patterns
+scope: UNIVERSAL
 ---
 
 # Salesforce Security Guide
+
+**SCOPE: UNIVERSAL** - This skill applies to ALL Salesforce development requiring security considerations.
+**READ** this skill for Apex (CRUD/FLS), LWC (XSS), Integrations (OAuth), and AppExchange security reviews.
+
+---
 
 Complete reference for implementing security best practices in Salesforce development.
 

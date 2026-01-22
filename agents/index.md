@@ -2,15 +2,37 @@
 
 This index helps you find the right agent for your task. Read only the agents relevant to what you're building.
 
+---
+
+## CRITICAL: Routing Validation
+
+**Before reading any agent files, confirm your task classification from the command.**
+
+| Your Classification | Read ONLY This Section | DO NOT Read |
+|--------------------|------------------------|-------------|
+| AUTOMATION | Flow & Automation | Apex Development, LWC |
+| APEX | Apex Development | Flow & Automation |
+| LWC | Lightning Web Components | Flow & Automation (unless Apex controller needed) |
+| INTEGRATION | Integration | Flow & Automation |
+| ARCHITECTURE | Architecture & Data Model | N/A (applies broadly) |
+
+**STOP: If your task is about Flows/Automation, skip directly to "Flow & Automation" section. Do NOT read Apex agents.**
+
+---
+
 ## How to Use This Index
 
-1. Identify what Salesforce component you're working with
-2. Find the matching category below
-3. Read only the agents that apply to your specific task
+1. **CONFIRM** your task classification from the command
+2. **NAVIGATE** directly to the matching category below
+3. **READ ONLY** the agents in that category
+4. **DO NOT** read agents from other categories
 
 ---
 
 ## Apex Development
+
+**SCOPE: APEX_ONLY** - Use these agents ONLY when building Apex classes, triggers, or batch jobs.
+**DO NOT** use these agents for Flows, LWC frontend-only work, or declarative automation.
 
 Use these agents when building Apex classes, triggers, or batch jobs.
 
@@ -27,7 +49,10 @@ Use these agents when building Apex classes, triggers, or batch jobs.
 
 ## Flow & Automation
 
-Use these agents when building Flows, Process Builder, or declarative automation.
+**SCOPE: AUTOMATION_ONLY** - Use these agents ONLY when building Flows, Process Builder, or declarative automation.
+**DO NOT** use these agents for Apex code, LWC components, or custom integrations.
+
+**If you came here but your task is Apex → STOP. Go back to "Apex Development" section.**
 
 | Agent | File | Use When |
 |-------|------|----------|
@@ -40,7 +65,10 @@ Use these agents when building Flows, Process Builder, or declarative automation
 
 ## Lightning Web Components (LWC)
 
-Use these agents when building LWC or migrating from Aura.
+**SCOPE: LWC_ONLY** - Use these agents ONLY when building LWC components or migrating from Aura.
+**DO NOT** use these agents for Flows or backend-only Apex.
+
+**Exception:** If your LWC needs an Apex controller, you may ALSO read Apex agents for the controller portion only.
 
 | Agent | File | Use When |
 |-------|------|----------|
@@ -54,7 +82,8 @@ Use these agents when building LWC or migrating from Aura.
 
 ## Integration
 
-Use these agents when building APIs, callouts, or Platform Events.
+**SCOPE: INTEGRATION_ONLY** - Use these agents ONLY when building APIs, callouts, Platform Events, or external system connections.
+**DO NOT** use these agents for Flows, LWC frontend, or internal Apex logic.
 
 | Agent | File | Use When |
 |-------|------|----------|
@@ -67,7 +96,8 @@ Use these agents when building APIs, callouts, or Platform Events.
 
 ## Architecture & Data Model
 
-Use these agents for org-wide design decisions.
+**SCOPE: UNIVERSAL** - These agents apply to org-wide design decisions and can be used alongside other categories.
+Use for data modeling, sharing configuration, and cross-cutting architectural concerns.
 
 | Agent | File | Use When |
 |-------|------|----------|
@@ -80,15 +110,17 @@ Use these agents for org-wide design decisions.
 
 ## Quick Reference: Which Agents for Which Task?
 
-| If you're building... | Use these agents |
-|-----------------------|------------------|
-| Apex Trigger | `apex-trigger-architect`, `apex-bulkification-reviewer`, `apex-governor-guardian` |
-| Apex Service Class | `apex-governor-guardian`, `apex-security-sentinel`, `apex-exception-handler` |
-| Apex Test Class | `apex-test-coverage-analyst` |
-| Record-Triggered Flow | `flow-governor-monitor`, `flow-complexity-analyzer` |
-| Screen Flow | `flow-complexity-analyzer`, `process-automation-strategist` |
-| LWC Component | `lwc-architecture-strategist`, `lwc-performance-oracle` |
-| REST API | `rest-api-architect`, `integration-security-sentinel` |
-| External Callout | `callout-pattern-reviewer`, `integration-security-sentinel` |
-| Platform Event | `platform-event-strategist` |
-| Custom Object | `data-model-architect`, `sharing-security-analyst` |
+**VALIDATION**: Confirm your task classification matches the row you're using.
+
+| If you're building... | Classification | Use these agents | DO NOT Use |
+|-----------------------|----------------|------------------|------------|
+| Apex Trigger | APEX | `apex-trigger-architect`, `apex-bulkification-reviewer`, `apex-governor-guardian` | Flow agents |
+| Apex Service Class | APEX | `apex-governor-guardian`, `apex-security-sentinel`, `apex-exception-handler` | Flow agents |
+| Apex Test Class | APEX | `apex-test-coverage-analyst` | Flow agents |
+| Record-Triggered Flow | AUTOMATION | `flow-governor-monitor`, `flow-complexity-analyzer` | Apex agents |
+| Screen Flow | AUTOMATION | `flow-complexity-analyzer`, `process-automation-strategist` | Apex agents |
+| LWC Component | LWC | `lwc-architecture-strategist`, `lwc-performance-oracle` | Flow agents |
+| REST API | INTEGRATION | `rest-api-architect`, `integration-security-sentinel` | Flow agents |
+| External Callout | INTEGRATION | `callout-pattern-reviewer`, `integration-security-sentinel` | Flow agents |
+| Platform Event | INTEGRATION | `platform-event-strategist` | Flow agents |
+| Custom Object | ARCHITECTURE | `data-model-architect`, `sharing-security-analyst` | N/A |

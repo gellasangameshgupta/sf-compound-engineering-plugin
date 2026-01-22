@@ -1,9 +1,15 @@
 ---
 name: test-factory
 description: Test data factory patterns and utilities for Salesforce Apex testing
+scope: APEX_ONLY
 ---
 
 # Test Data Factory Patterns
+
+**SCOPE: APEX_ONLY** - This skill applies ONLY to Apex test classes and test data creation.
+**DO NOT** use this skill for Flows (Flows don't use Apex test classes) or LWC Jest tests (different testing framework).
+
+---
 
 Comprehensive test data factory for creating consistent, maintainable test data.
 

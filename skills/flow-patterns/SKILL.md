@@ -1,4 +1,15 @@
+---
+name: flow-patterns
+description: Patterns and best practices for building Salesforce Flows
+scope: AUTOMATION_ONLY
+---
+
 # Flow Patterns
+
+**SCOPE: AUTOMATION_ONLY** - This skill applies ONLY to Flows (Record-Triggered, Screen, Scheduled, Platform Event-Triggered).
+**DO NOT** use this skill for Apex code or LWC components. For Apex patterns, use `apex-patterns` instead.
+
+---
 
 Patterns and best practices for building Salesforce Flows.
 

@@ -15,6 +15,44 @@ You are planning a Salesforce implementation. Your job is to research and design
 
 Create a specification and technical design for: `$ARGUMENTS.feature`
 
+---
+
+## MANDATORY: Task Classification
+
+**STOP. Before reading any agents or skills, you MUST classify this task.**
+
+### Step 1: Identify Primary Component Type
+
+Analyze the feature request and determine the PRIMARY Salesforce component:
+
+| If Request Mentions... | Classification | Load ONLY These Resources |
+|------------------------|----------------|---------------------------|
+| Flow, Record-Triggered Flow, Screen Flow, Scheduled Flow, Automation, Process Builder | **AUTOMATION** | `agents/automation/*.md` + `skills/flow-patterns/` |
+| Apex, Trigger, Class, Batch, Schedulable, Queueable, Service, Handler | **APEX** | `agents/apex/*.md` + `skills/apex-patterns/` |
+| LWC, Lightning Web Component, Component, Aura, Frontend | **LWC** | `agents/lwc/*.md` + `skills/lwc-patterns/` |
+| API, REST, Callout, Integration, External System, Platform Event, Webhook | **INTEGRATION** | `agents/integration/*.md` + `skills/integration-patterns/` |
+| Object, Field, Relationship, Data Model, Sharing, Permission, OWD | **ARCHITECTURE** | `agents/architecture/*.md` + `skills/security-guide/` |
+
+### Step 2: Output Your Classification
+
+**You MUST explicitly state:** `Task Classification: [AUTOMATION|APEX|LWC|INTEGRATION|ARCHITECTURE]`
+
+### Step 3: Load Resources for ONLY That Classification
+
+- Read the agents listed for your classification
+- Read the skills listed for your classification
+- Read `skills/governor-limits/` (applies to all classifications)
+
+### Step 4: DO NOT Cross-Load
+
+**CRITICAL ROUTING RULES:**
+- If classification is AUTOMATION → DO NOT read `agents/apex/*.md` or `skills/apex-patterns/`
+- If classification is APEX → DO NOT read `agents/automation/*.md` or `skills/flow-patterns/`
+- If classification is LWC → DO NOT read `agents/apex/*.md` (unless Apex controller is needed)
+- Mixing patterns from wrong domains causes incorrect recommendations
+
+---
+
 ## Critical Constraint
 
 **DO NOT WRITE CODE.** This command produces:

@@ -19,6 +19,42 @@ If a plan file path is provided, read it first. If a description is provided, im
 
 ---
 
+## MANDATORY: Task Classification
+
+**STOP. Before reading any agents or skills, you MUST classify this task.**
+
+### Step 1: Identify Primary Component Type
+
+Analyze the implementation request and determine the PRIMARY Salesforce component:
+
+| If Building... | Classification | Load ONLY These Resources |
+|----------------|----------------|---------------------------|
+| Flow, Record-Triggered Flow, Screen Flow, Scheduled Flow, Automation | **AUTOMATION** | `agents/automation/*.md` + `skills/flow-patterns/` |
+| Apex Class, Trigger, Batch, Schedulable, Queueable, Service, Handler | **APEX** | `agents/apex/*.md` + `skills/apex-patterns/` |
+| LWC, Lightning Web Component, Aura Component | **LWC** | `agents/lwc/*.md` + `skills/lwc-patterns/` |
+| REST API, Callout, Integration, Platform Event | **INTEGRATION** | `agents/integration/*.md` + `skills/integration-patterns/` |
+| Custom Object, Fields, Relationships, Sharing Rules | **ARCHITECTURE** | `agents/architecture/*.md` + `skills/security-guide/` |
+
+### Step 2: Output Your Classification
+
+**You MUST explicitly state:** `Task Classification: [AUTOMATION|APEX|LWC|INTEGRATION|ARCHITECTURE]`
+
+### Step 3: Load Resources for ONLY That Classification
+
+- Read the agents listed for your classification
+- Read the skills listed for your classification
+- Read `skills/governor-limits/` (applies to all classifications)
+
+### Step 4: DO NOT Cross-Load
+
+**CRITICAL ROUTING RULES:**
+- If classification is AUTOMATION → DO NOT read `agents/apex/*.md` or `skills/apex-patterns/`
+- If classification is APEX → DO NOT read `agents/automation/*.md` or `skills/flow-patterns/`
+- If classification is LWC → DO NOT read `agents/apex/*.md` (unless Apex controller is needed)
+- Mixing patterns from wrong domains causes incorrect recommendations
+
+---
+
 ## Available Resources
 
 ### Agents (Expertise)

@@ -1,9 +1,15 @@
 ---
 name: lwc-patterns
 description: Lightning Web Components patterns for state management, component communication, and architecture
+scope: LWC_ONLY
 ---
 
 # LWC Design Patterns
+
+**SCOPE: LWC_ONLY** - This skill applies ONLY to Lightning Web Components (JavaScript, HTML, CSS).
+**DO NOT** use this skill for Flows or backend Apex logic. For Apex patterns, use `apex-patterns`. For Flow patterns, use `flow-patterns`.
+
+---
 
 Common patterns for building maintainable Lightning Web Components.
 

@@ -19,6 +19,41 @@ If no scope specified, analyze recent commits and changes.
 
 ---
 
+## MANDATORY: Work Classification
+
+**STOP. Before analyzing, you MUST classify the work that was completed.**
+
+### Step 1: Identify What Was Built
+
+Analyze the recent changes and determine the PRIMARY Salesforce component type:
+
+| If Work Involved... | Classification | Update ONLY These Resources |
+|---------------------|----------------|----------------------------|
+| Flows, Automation | **AUTOMATION** | `agents/automation/*.md` + `skills/flow-patterns/` |
+| Apex Classes, Triggers | **APEX** | `agents/apex/*.md` + `skills/apex-patterns/` |
+| LWC Components | **LWC** | `agents/lwc/*.md` + `skills/lwc-patterns/` |
+| Integrations, Callouts, APIs | **INTEGRATION** | `agents/integration/*.md` + `skills/integration-patterns/` |
+| Data Model, Sharing | **ARCHITECTURE** | `agents/architecture/*.md` + `skills/security-guide/` |
+
+### Step 2: Output Your Classification
+
+**You MUST explicitly state:** `Work Classification: [AUTOMATION|APEX|LWC|INTEGRATION|ARCHITECTURE]`
+
+### Step 3: Capture Learnings to Correct Files
+
+- Add Flow patterns to `skills/flow-patterns/SKILL.md`, NOT to `skills/apex-patterns/SKILL.md`
+- Add Apex patterns to `skills/apex-patterns/SKILL.md`, NOT to `skills/flow-patterns/SKILL.md`
+- Add checks to agents matching the work type
+
+### Step 4: DO NOT Cross-Contaminate
+
+**CRITICAL RULES:**
+- Learnings from Flow work → Update ONLY automation agents and flow-patterns skill
+- Learnings from Apex work → Update ONLY apex agents and apex-patterns skill
+- Mixing learnings into wrong files corrupts future routing
+
+---
+
 ## The Compound Loop
 
 ```

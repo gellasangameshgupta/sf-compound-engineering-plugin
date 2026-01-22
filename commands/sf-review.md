@@ -19,6 +19,43 @@ If no target specified, review uncommitted changes (`git diff`).
 
 ---
 
+## MANDATORY: Task Classification
+
+**STOP. Before reading any agents or skills, you MUST classify the files being reviewed.**
+
+### Step 1: Identify File Types Being Reviewed
+
+Analyze the files and determine their PRIMARY Salesforce component type:
+
+| If Reviewing... | Classification | Load ONLY These Agents |
+|-----------------|----------------|------------------------|
+| `.flow-meta.xml`, Flow metadata | **AUTOMATION** | `agents/automation/*.md` |
+| `.cls`, `.trigger`, Apex files | **APEX** | `agents/apex/*.md` |
+| `.js`, `.html`, `.css` in `/lwc/` folder | **LWC** | `agents/lwc/*.md` |
+| Callout classes, Named Credentials, Platform Events | **INTEGRATION** | `agents/integration/*.md` |
+| `.object-meta.xml`, `.field-meta.xml`, sharing rules | **ARCHITECTURE** | `agents/architecture/*.md` |
+
+### Step 2: Output Your Classification
+
+**You MUST explicitly state:** `Files Classification: [AUTOMATION|APEX|LWC|INTEGRATION|ARCHITECTURE]`
+
+For mixed file types, state: `Files Classification: [TYPE1], [TYPE2]`
+
+### Step 3: Load Agents for ONLY Those Classifications
+
+- Read the agents listed for your classification(s)
+- DO NOT load agents for file types not being reviewed
+
+### Step 4: DO NOT Cross-Apply
+
+**CRITICAL ROUTING RULES:**
+- If reviewing Flows → DO NOT apply Apex review checklists
+- If reviewing Apex → DO NOT apply Flow review checklists
+- If reviewing LWC → Apply LWC agents; only apply Apex agents if reviewing Apex controllers
+- Each agent type has specific checklists for specific file types
+
+---
+
 ## Available Resources
 
 ### Agents (Review Expertise)
